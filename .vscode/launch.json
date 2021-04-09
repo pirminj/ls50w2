@@ -1,0 +1,34 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "ls50w2",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "Pixel 5",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "08231FDD4004M9"
+        },
+        {
+            "name": "Windows",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "windows"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "All Devices",
+            "configurations": [
+                "Pixel 5",
+                "Windows",
+            ]
+        }
+    ]
+}
