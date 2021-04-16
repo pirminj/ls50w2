@@ -2,6 +2,13 @@
 
 A Flutter app to control KEF LS50 Wireless 2 in your local network
 
+## Features
+
+- All four colors!
+- Input source selection
+- Disable unused inputs on start screen
+- Infos about player and firmware update
+
 <p float="left">
   <img src="https://user-images.githubusercontent.com/43973067/115079593-b2e3f680-9f01-11eb-8cb0-9b72cbcc68e1.png" width="250" />
   <img src="https://user-images.githubusercontent.com/43973067/115079599-b6777d80-9f01-11eb-954b-44e72e2adaa8.png" width="250" /> 
@@ -10,11 +17,7 @@ A Flutter app to control KEF LS50 Wireless 2 in your local network
   <img src="https://user-images.githubusercontent.com/43973067/115079566-a9f32500-9f01-11eb-9c7a-857d0ac84db7.png" width="250" />
 </p>
 
-## Features
 
-- Input source selection
-- All four color themes!
-- Infos about player and firmware update
 
 ## How to use
 
