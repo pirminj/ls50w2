@@ -32,6 +32,7 @@ ThemeData constructThemeFromColors(ColorSet colorSet) {
       bodyColor: colorSet.primaryTextColor,
       displayColor: colorSet.primaryTextColor,
     ),
+    brightness: colorSet.brightness,
     iconTheme: IconThemeData(
       color: colorSet.primaryTextColor,
     ),

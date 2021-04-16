@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/painting.dart';
 
 final mineralWhite = Color(0xfff2f1eb);
@@ -13,6 +14,7 @@ abstract class ColorSet {
   Color get secondaryLightColor;
   Color get secondaryDarkColor;
   Color get primaryTextColor;
+  Brightness get brightness;
 }
 
 /// https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=1b1f20&secondary.color=aa6d4f
@@ -25,6 +27,7 @@ class CarbonBlack implements ColorSet {
   Color get secondaryDarkColor => Color(0xff784126);
   Color get primaryTextColor => Color(0xffffffff);
   Color get secondaryTextColor => Color(0xff000000);
+  Brightness get brightness => Brightness.dark;
 }
 
 /// https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=f7f6f0&secondary.color=aa6d4f
@@ -37,6 +40,7 @@ class MineralWhite implements ColorSet {
   Color get secondaryDarkColor => Color(0xff784126);
   Color get primaryTextColor => Color(0xff000000);
   Color get secondaryTextColor => Color(0xff000000);
+  Brightness get brightness => Brightness.light;
 }
 
 /// https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=555452&secondary.color=771919
@@ -49,6 +53,7 @@ class TitaniumGrey implements ColorSet {
   Color get secondaryDarkColor => Color(0xff470000);
   Color get primaryTextColor => Color(0xffffffff);
   Color get secondaryTextColor => Color(0xffffffff);
+  Brightness get brightness => Brightness.dark;
 }
 
 /// https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=851f21&secondary.color=6d6461
@@ -61,4 +66,5 @@ class CrimsonRed implements ColorSet {
   Color get secondaryDarkColor => Color(0xff423a37);
   Color get primaryTextColor => Color(0xffffffff);
   Color get secondaryTextColor => Color(0xffffffff);
+  Brightness get brightness => Brightness.light;
 }
