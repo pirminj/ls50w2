@@ -4,8 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kef_ls50w2_client/kef_ls50w2_client.dart';
 
 import '../common_widgets/elevated_card.dart';
-import '../main.dart';
 import '../settings/settings.dart';
+import 'speaker_status_notifier.dart';
 
 class SourceSelection extends HookWidget {
   const SourceSelection({
@@ -41,6 +41,67 @@ class SourceSelection extends HookWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class SourceSelectButton extends HookWidget {
+  const SourceSelectButton({
+    Key? key,
+    required this.source,
+    required this.iconData,
+  }) : super(key: key);
+
+  final SpeakerSource source;
+  final IconData iconData;
+
+  static double radius = 36.0;
+
+  @override
+  Widget build(BuildContext context) {
+    final speakerValue = useProvider(Speaker.provider);
+    final notifier = useProvider(Speaker.provider.notifier);
+    final selectedColor = Theme.of(context).accentColor;
+    final unselectedColor = Theme.of(context).primaryIconTheme.color!;
+
+    return speakerValue.when(
+      data: (speaker) {
+        final bool isCurrent = speaker.source == source;
+        final Color color = isCurrent ? selectedColor : unselectedColor;
+        return buildButton(
+          color: color,
+          onPressed: () async {
+            if (isCurrent) return;
+            notifier.selectSource(source);
+          },
+        );
+      },
+      loading: () => buildButton(color: unselectedColor),
+      error: (error, stackTrace) => buildButton(color: unselectedColor),
+    );
+  }
+
+  Widget buildButton({
+    required Color color,
+    void Function()? onPressed,
+  }) {
+    return Center(
+      child: Container(
+        height: radius * 2,
+        width: radius * 2,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(width: 3, color: color),
+        ),
+        child: IconButton(
+          iconSize: 32,
+          splashRadius: radius,
+          color: color,
+          icon: Icon(iconData),
+          // tooltip: source.name().toUpperCase(),
+          onPressed: onPressed,
+        ),
       ),
     );
   }

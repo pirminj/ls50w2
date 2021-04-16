@@ -1,7 +1,13 @@
 import 'package:kef_ls50w2_client/kef_ls50w2_client.dart';
-import 'package:ls50w2/main.dart';
-import 'package:ls50w2/speaker/speaker_status_model.dart';
 import 'package:riverpod/riverpod.dart';
+
+import '../settings/settings.dart';
+import 'speaker_status_model.dart';
+
+final clientProvider = Provider<KefClient>((ref) {
+  final String host = ref.watch(hostProvider).state;
+  return KefClient(host);
+});
 
 class Speaker extends StateNotifier<AsyncValue<SpeakerStatusModel>> {
   Speaker(

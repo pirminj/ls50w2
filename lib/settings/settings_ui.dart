@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kef_ls50w2_client/kef_ls50w2_client.dart';
-import 'package:ls50w2/settings/settings.dart';
-import 'package:ls50w2/settings/settings_model.dart';
+
+import 'settings.dart';
+import 'settings_model.dart';
 
 final hostProvider = StateProvider<String>((_) => "192.168.0.149");
 
@@ -35,6 +37,12 @@ class SettingsPage extends StatelessWidget {
           Divider(),
           VisibleSourcesSelection(),
           Divider(),
+          AboutListTile(
+            applicationName: 'LS50W2 control (unofficial)',
+            applicationVersion: '0.1',
+            applicationLegalese: 'A rights belong to their respective owners',
+            dense: false,
+          ),
           Container(
             constraints: BoxConstraints.expand(height: 72),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -70,7 +78,8 @@ class VisibleSourcesSelection extends HookWidget {
             style: Theme.of(context).textTheme.headline6,
           ),
           subtitle: Text(
-              'Change the order by selecting the sources in the order you like'),
+            'Change the order by selecting the sources in the order you like',
+          ),
           dense: true,
         ),
         // skip the standy source
@@ -113,55 +122,55 @@ class ModelColorSelection extends HookWidget {
         Padding(
           padding: const EdgeInsets.all(16),
           child: Container(
+            clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(),
+              border: Border.all(
+                color: Theme.of(context).accentColor,
+                width: 2,
+              ),
             ),
-            child: ClipRRect(
-              clipBehavior: Clip.antiAlias,
-              borderRadius: BorderRadius.circular(16),
-              child: Column(
-                children: [
-                  ...ModelColor.values.map(
-                    (ModelColor modelColor) => InkWell(
-                      onTap: () => notifier.updateModelColor(modelColor),
-                      child: Container(
-                        color: modelColor == selectedModelColor
-                            ? Theme.of(context).accentColor
-                            : null,
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 150,
-                              child: AspectRatio(
-                                aspectRatio: 1.6,
-                                child: DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: AssetImage(
-                                        modelColor.dualFrontPhoto,
-                                      ),
+            child: Column(
+              children: [
+                ...ModelColor.values.map(
+                  (ModelColor modelColor) => InkWell(
+                    onTap: () => notifier.updateModelColor(modelColor),
+                    child: Container(
+                      color: modelColor == selectedModelColor
+                          ? Theme.of(context).accentColor
+                          : null,
+                      padding: const EdgeInsets.all(16),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 150,
+                            child: AspectRatio(
+                              aspectRatio: 1.6,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(
+                                      modelColor.dualFrontPhoto,
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 16),
-                              child: Text(
-                                modelColor.name,
-                                style: Theme.of(context).textTheme.headline4,
-                              ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16),
+                            child: Text(
+                              modelColor.name,
+                              style: GoogleFonts.lato(fontSize: 24),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
           ),
         ),

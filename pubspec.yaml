@@ -17,6 +17,7 @@ dependencies:
   hooks_riverpod: ^0.14.0
   shared_preferences: ^2.0.5
   freezed: ^0.14.1+2
+  google_fonts: ^2.0.0
 
 dev_dependencies:
   flutter_test:
