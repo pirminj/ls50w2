@@ -69,23 +69,25 @@ class VisibleSourcesSelection extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final sources = useProvider(Settings.provider).showSources;
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ListTile(
           title: Text(
             'Input Sources',
-            style: Theme.of(context).textTheme.headline6,
+            style: theme.textTheme.headline6,
           ),
           subtitle: Text(
             'Change the order by selecting the sources in the order you like',
           ),
           dense: true,
         ),
-        // skip the standy source
+        // skip the standby source
         ...SpeakerSource.values.skip(1).map(
               (source) => CheckboxListTile(
                 controlAffinity: ListTileControlAffinity.leading,
+                activeColor: theme.accentColor,
                 title: Text(source.name()),
                 value: sources.contains(source),
                 onChanged: (_) => context

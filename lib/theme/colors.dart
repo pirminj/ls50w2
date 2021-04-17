@@ -66,5 +66,5 @@ class CrimsonRed implements ColorSet {
   Color get secondaryDarkColor => Color(0xff423a37);
   Color get primaryTextColor => Color(0xffffffff);
   Color get secondaryTextColor => Color(0xffffffff);
-  Brightness get brightness => Brightness.light;
+  Brightness get brightness => Brightness.dark;
 }

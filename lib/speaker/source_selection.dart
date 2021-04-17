@@ -56,14 +56,15 @@ class SourceSelectButton extends HookWidget {
   final SpeakerSource source;
   final IconData iconData;
 
-  static double radius = 36.0;
+  static double radius = 42.0;
 
   @override
   Widget build(BuildContext context) {
     final speakerValue = useProvider(Speaker.provider);
     final notifier = useProvider(Speaker.provider.notifier);
-    final selectedColor = Theme.of(context).accentColor;
-    final unselectedColor = Theme.of(context).primaryIconTheme.color!;
+    final selectedColor = Theme.of(context).accentIconTheme.color!;
+    final unselectedColor =
+        Theme.of(context).primaryIconTheme.color!.withOpacity(0.4);
 
     return speakerValue.when(
       data: (speaker) {
@@ -92,14 +93,13 @@ class SourceSelectButton extends HookWidget {
         width: radius * 2,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(width: 3, color: color),
+          border: Border.all(width: 4, color: color),
         ),
         child: IconButton(
           iconSize: 32,
           splashRadius: radius,
           color: color,
           icon: Icon(iconData),
-          // tooltip: source.name().toUpperCase(),
           onPressed: onPressed,
         ),
       ),

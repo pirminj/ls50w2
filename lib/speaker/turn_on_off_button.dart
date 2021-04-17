@@ -23,7 +23,7 @@ class TurnOnOffButton extends HookWidget {
             );
           case SpeakerStatus.powerOn:
             return buildIconButton(
-              color: Theme.of(context).accentColor,
+              iconTheme: Theme.of(context).accentIconTheme,
               onPressed: () =>
                   context.read(Speaker.provider.notifier).turnOff(),
             );
@@ -34,11 +34,12 @@ class TurnOnOffButton extends HookWidget {
     );
   }
 
-  Widget buildIconButton({Color? color, void Function()? onPressed}) {
+  Widget buildIconButton(
+      {IconThemeData? iconTheme, void Function()? onPressed}) {
     return IconButton(
       icon: Icon(
         Icons.power_settings_new,
-        color: color,
+        color: iconTheme?.color,
       ),
       iconSize: 60,
       onPressed: onPressed,

@@ -27,6 +27,10 @@ ThemeData constructThemeFromColors(ColorSet colorSet) {
     primaryColorDark: colorSet.primaryDarkColor,
     primaryColorLight: colorSet.primaryLightColor,
     accentColor: colorSet.secondaryColor,
+    accentIconTheme: IconThemeData(
+      color: colorSet.secondaryColor,
+    ),
+    shadowColor: colorSet.secondaryColor,
     scaffoldBackgroundColor: colorSet.primaryLightColor,
     textTheme: defaultDarkTheme.textTheme.apply(
       bodyColor: colorSet.primaryTextColor,
@@ -62,10 +66,61 @@ ThemeData constructThemeFromColors(ColorSet colorSet) {
   );
 }
 
-final ThemeData mineralWhiteTheme = constructThemeFromColors(MineralWhite());
+final MineralWhite mineralWhiteColors = MineralWhite();
+final CarbonBlack carbonBlackColors = CarbonBlack();
+final TitaniumGrey titaniumGreyColors = TitaniumGrey();
+final CrimsonRed crimsonRedColors = CrimsonRed();
 
-final ThemeData carbonBlackTheme = constructThemeFromColors(CarbonBlack());
+final ThemeData mineralWhiteTheme =
+    constructThemeFromColors(mineralWhiteColors).copyWith(
+  textButtonTheme: TextButtonThemeData(
+    style: ButtonStyle(
+      foregroundColor: MaterialStateColor.resolveWith(
+        (states) => mineralWhiteColors.secondaryDarkColor,
+      ),
+    ),
+  ),
+);
 
-final ThemeData titaniumGreyTheme = constructThemeFromColors(TitaniumGrey());
+final ThemeData carbonBlackTheme =
+    constructThemeFromColors(carbonBlackColors).copyWith(
+  textButtonTheme: TextButtonThemeData(
+    style: ButtonStyle(
+      foregroundColor: MaterialStateColor.resolveWith(
+        (states) => carbonBlackColors.secondaryLightColor,
+      ),
+    ),
+  ),
+);
 
-final ThemeData crimsonRedTheme = constructThemeFromColors(CrimsonRed());
+final ThemeData titaniumGreyTheme =
+    constructThemeFromColors(titaniumGreyColors).copyWith(
+  textButtonTheme: TextButtonThemeData(
+    style: ButtonStyle(
+      foregroundColor: MaterialStateColor.resolveWith(
+        (states) => titaniumGreyColors.secondaryLightColor,
+      ),
+    ),
+  ),
+  dialogTheme: DialogTheme(
+    backgroundColor: titaniumGreyColors.primaryDarkColor,
+  ),
+);
+
+final ThemeData crimsonRedTheme =
+    constructThemeFromColors(crimsonRedColors).copyWith(
+  textButtonTheme: TextButtonThemeData(
+    style: ButtonStyle(
+      foregroundColor: MaterialStateColor.resolveWith(
+        (states) => crimsonRedColors.secondaryLightColor,
+      ),
+    ),
+  ),
+  dialogTheme: DialogTheme(
+    backgroundColor: crimsonRedColors.primaryDarkColor,
+  ),
+  accentIconTheme: IconThemeData(
+    color: crimsonRedColors.primaryTextColor,
+  ),
+  shadowColor: crimsonRedColors.secondaryLightColor,
+);
