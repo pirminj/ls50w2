@@ -31,6 +31,7 @@ ThemeData constructThemeFromColors(ColorSet colorSet) {
       color: colorSet.secondaryColor,
     ),
     shadowColor: colorSet.secondaryColor,
+    toggleableActiveColor: colorSet.secondaryColor,
     scaffoldBackgroundColor: colorSet.primaryLightColor,
     textTheme: defaultDarkTheme.textTheme.apply(
       bodyColor: colorSet.primaryTextColor,
@@ -39,6 +40,7 @@ ThemeData constructThemeFromColors(ColorSet colorSet) {
     brightness: colorSet.brightness,
     iconTheme: IconThemeData(
       color: colorSet.primaryTextColor,
+      size: 32,
     ),
     appBarTheme: AppBarTheme(
       elevation: 0,

@@ -7,8 +7,6 @@ import 'package:kef_ls50w2_client/kef_ls50w2_client.dart';
 import 'settings.dart';
 import 'settings_model.dart';
 
-final hostProvider = StateProvider<String>((_) => "192.168.0.149");
-
 class SettingsPage extends StatelessWidget {
   const SettingsPage({
     Key? key,

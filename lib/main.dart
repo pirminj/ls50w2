@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:ls50w2/providers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'settings/settings.dart';
-import 'speaker/firmware_data_page.dart';
-import 'speaker/player_data_page.dart';
+import 'common_widgets/json_text_page.dart';
 import 'speaker/source_selection.dart';
 import 'speaker/speaker_status_notifier.dart';
 import 'speaker/turn_on_off_button.dart';
@@ -19,9 +19,7 @@ void main() async {
 
   runApp(
     ProviderScope(
-      observers: [
-        Logger(),
-      ],
+      observers: [Logger()],
       overrides: [
         Settings.provider.overrideWithValue(
           Settings.initialize(preferences),
@@ -61,14 +59,20 @@ class Body extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  final contentPadding =
+      const EdgeInsets.symmetric(horizontal: 24, vertical: 12);
+
   @override
   Widget build(BuildContext context) {
+    final trailingIcon = Icon(Icons.arrow_forward_ios, size: 20);
     return RefreshIndicator(
       onRefresh: () {
-        context.refresh(PlayerDataPage.futureProvider);
-        context.refresh(FirmwareDataPage.futureProvider);
+        context.refresh(playerDataProvider);
+        context.refresh(firmwareUpdateProvider);
         return context.read(Speaker.provider.notifier).refresh();
       },
+      backgroundColor: Theme.of(context).accentColor,
+      color: Theme.of(context).primaryColor,
       child: ListView(
         children: [
           Padding(
@@ -79,8 +83,9 @@ class Body extends StatelessWidget {
           SizedBox(height: 32),
           ListTile(
             title: Text('Settings'),
-            contentPadding: const EdgeInsets.all(16),
-            trailing: Icon(Icons.arrow_forward_ios),
+            leading: Icon(Icons.settings_applications),
+            contentPadding: contentPadding,
+            trailing: trailingIcon,
             onTap: () => Navigator.of(context).push(
               CupertinoPageRoute(
                 builder: (context) => SettingsPage(),
@@ -89,8 +94,9 @@ class Body extends StatelessWidget {
           ),
           ListTile(
             title: Text('Player details'),
-            contentPadding: const EdgeInsets.all(16),
-            trailing: Icon(Icons.arrow_forward_ios),
+            leading: Icon(Icons.play_circle_fill),
+            contentPadding: contentPadding,
+            trailing: trailingIcon,
             onTap: () => Navigator.of(context).push(
               CupertinoPageRoute(
                 builder: (context) => PlayerDataPage(),
@@ -99,16 +105,43 @@ class Body extends StatelessWidget {
           ),
           ListTile(
             title: Text('Firmware update'),
-            contentPadding: const EdgeInsets.all(16),
-            trailing: Icon(Icons.arrow_forward_ios),
+            leading: Icon(Icons.update),
+            contentPadding: contentPadding,
+            trailing: trailingIcon,
             onTap: () => Navigator.of(context).push(
               CupertinoPageRoute(
-                builder: (context) => FirmwareDataPage(),
+                builder: (context) => FirmwareUpdatePage(),
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class FirmwareUpdatePage extends HookWidget {
+  const FirmwareUpdatePage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return JsonTextPage(
+      asyncJsonData: useProvider(firmwareUpdateProvider),
+    );
+  }
+}
+
+class PlayerDataPage extends HookWidget {
+  const PlayerDataPage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return JsonTextPage(
+      asyncJsonData: useProvider(playerDataProvider),
     );
   }
 }
