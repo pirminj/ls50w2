@@ -25,22 +25,27 @@ class SourceSelection extends HookWidget {
   Widget build(BuildContext context) {
     final sourcesToShow = useProvider(Settings.provider).showSources;
 
-    return ElevatedCard(
-      child: GridView(
-        shrinkWrap: true,
-        padding: const EdgeInsets.all(16),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-        ),
-        physics: NeverScrollableScrollPhysics(),
-        children: [
-          ...sourcesToShow.map(
-            (source) => SourceSelectButton(
-              source: source,
-              iconData: icons[source] ?? Icons.ac_unit,
+    return Center(
+      child: Container(
+        constraints: BoxConstraints(maxWidth: sourcesToShow.length * 150),
+        child: ElevatedCard(
+          child: GridView(
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(16),
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 150,
             ),
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              ...sourcesToShow.map(
+                (source) => SourceSelectButton(
+                  source: source,
+                  iconData: icons[source] ?? Icons.ac_unit,
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

@@ -30,17 +30,20 @@ ThemeData constructThemeFromColors(ColorSet colorSet) {
     accentIconTheme: IconThemeData(
       color: colorSet.secondaryColor,
     ),
-    shadowColor: colorSet.secondaryColor,
     toggleableActiveColor: colorSet.secondaryColor,
     scaffoldBackgroundColor: colorSet.primaryLightColor,
     textTheme: defaultDarkTheme.textTheme.apply(
       bodyColor: colorSet.primaryTextColor,
       displayColor: colorSet.primaryTextColor,
     ),
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: colorSet.secondaryColor,
+      selectionColor: colorSet.secondaryLightColor,
+      selectionHandleColor: colorSet.secondaryColor,
+    ),
     brightness: colorSet.brightness,
     iconTheme: IconThemeData(
       color: colorSet.primaryTextColor,
-      size: 32,
     ),
     appBarTheme: AppBarTheme(
       elevation: 0,
@@ -49,9 +52,6 @@ ThemeData constructThemeFromColors(ColorSet colorSet) {
     cardColor: colorSet.primaryColor,
     dialogTheme: DialogTheme(
       backgroundColor: colorSet.primaryColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
     ),
     inputDecorationTheme: InputDecorationTheme(
       focusColor: Colors.green,
@@ -124,5 +124,4 @@ final ThemeData crimsonRedTheme =
   accentIconTheme: IconThemeData(
     color: crimsonRedColors.primaryTextColor,
   ),
-  shadowColor: crimsonRedColors.secondaryLightColor,
 );

@@ -19,41 +19,43 @@ class SettingsPage extends StatelessWidget {
         automaticallyImplyLeading: true,
         title: Text('Settings'),
       ),
-      body: ListView(
-        children: [
-          ListTile(
-            title: Text(
-              'Speaker',
-              style: Theme.of(context).textTheme.headline6,
-            ),
-            dense: true,
-          ),
-          SpeakerNameSettingsTile(),
-          HostSettingsTile(),
-          Divider(),
-          ModelColorSelection(),
-          Divider(),
-          VisibleSourcesSelection(),
-          Divider(),
-          AboutListTile(
-            applicationName: 'LS50W2 control (unofficial)',
-            applicationVersion: '0.1',
-            applicationLegalese: 'A rights belong to their respective owners',
-            dense: false,
-          ),
-          Container(
-            constraints: BoxConstraints.expand(height: 72),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: ElevatedButton(
-              child: Text(
-                'Reset app settings',
-                style: TextStyle(fontSize: 20),
+      body: Scrollbar(
+        child: ListView(
+          children: [
+            ListTile(
+              title: Text(
+                'Speaker',
+                style: Theme.of(context).textTheme.headline6,
               ),
-              onPressed: () =>
-                  context.read(Settings.provider.notifier).resetSettings(),
+              dense: true,
             ),
-          )
-        ],
+            SpeakerNameSettingsTile(),
+            HostSettingsTile(),
+            Divider(),
+            ModelColorSelection(),
+            Divider(),
+            VisibleSourcesSelection(),
+            Divider(),
+            AboutListTile(
+              applicationName: 'LS50W2 control (unofficial)',
+              applicationVersion: '0.1',
+              applicationLegalese: 'A rights belong to their respective owners',
+              dense: false,
+            ),
+            Container(
+              constraints: BoxConstraints.expand(height: 72),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: ElevatedButton(
+                child: Text(
+                  'Reset app settings',
+                  style: TextStyle(fontSize: 20),
+                ),
+                onPressed: () =>
+                    context.read(Settings.provider.notifier).resetSettings(),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -85,6 +87,7 @@ class VisibleSourcesSelection extends HookWidget {
         ...SpeakerSource.values.skip(1).map(
               (source) => CheckboxListTile(
                 controlAffinity: ListTileControlAffinity.leading,
+                contentPadding: _settingsListTileContentPadding,
                 activeColor: theme.accentColor,
                 title: Text(source.name()),
                 value: sources.contains(source),
@@ -191,6 +194,7 @@ class HostSettingsTile extends HookWidget {
     );
     return ListTile(
       title: Text(host),
+      contentPadding: _settingsListTileContentPadding,
       subtitle: Text('Speaker IP Address (Host)'),
       trailing: Icon(Icons.edit),
       onTap: () => _edit(context, host),
@@ -200,7 +204,18 @@ class HostSettingsTile extends HookWidget {
   void _edit(BuildContext context, String host) async {
     final String? editedHost = await showDialog(
       context: context,
-      builder: (context) => EditHostDialog(initial: host),
+      builder: (context) => TextEditDialog(
+        initial: host,
+        validator: (value) {
+          final exp = RegExp(
+            r"^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$",
+            caseSensitive: false,
+            multiLine: false,
+          );
+          if (!exp.hasMatch(value!)) return 'Enter a valid IP Address';
+          return null;
+        },
+      ),
     );
     if (editedHost != null && editedHost != host) {
       context.read(Settings.provider.notifier).updateHost(editedHost);
@@ -208,60 +223,9 @@ class HostSettingsTile extends HookWidget {
   }
 }
 
-class EditHostDialog extends HookWidget {
-  const EditHostDialog({
-    Key? key,
-    this.initial,
-  }) : super(key: key);
-
-  final String? initial;
-
-  void _return(BuildContext context, String host) {
-    Navigator.of(context).pop(host);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final controller = useTextEditingController(text: initial);
-    final theme = Theme.of(context);
-    return Dialog(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Theme(
-              data: theme.copyWith(primaryColor: theme.accentColor),
-              child: TextFormField(
-                autofocus: true,
-                controller: controller,
-                autovalidateMode: AutovalidateMode.always,
-                onFieldSubmitted: (host) => _return(context, host),
-                validator: (value) {
-                  final exp = RegExp(
-                    r"^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$",
-                    caseSensitive: false,
-                    multiLine: false,
-                  );
-                  if (!exp.hasMatch(value!)) return 'Enter a valid IP Address';
-                  return null;
-                },
-              ),
-            ),
-          ),
-          ButtonBar(
-            children: [
-              ElevatedButton(
-                child: Text('Ok'),
-                onPressed: () => _return(context, controller.text),
-              )
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
+final _settingsListTileContentPadding = const EdgeInsets.symmetric(
+  horizontal: 24,
+);
 
 class SpeakerNameSettingsTile extends HookWidget {
   const SpeakerNameSettingsTile({
@@ -275,6 +239,7 @@ class SpeakerNameSettingsTile extends HookWidget {
     );
     return ListTile(
       title: Text(name),
+      contentPadding: _settingsListTileContentPadding,
       subtitle: Text('Name'),
       trailing: Icon(Icons.edit),
       onTap: () => _edit(context, name),
@@ -284,7 +249,7 @@ class SpeakerNameSettingsTile extends HookWidget {
   void _edit(BuildContext context, String name) async {
     final String? edited = await showDialog(
       context: context,
-      builder: (context) => EditNameDialog(initial: name),
+      builder: (context) => TextEditDialog(initial: name),
     );
     if (edited != null && edited != name) {
       context.read(Settings.provider.notifier).updateName(edited);
@@ -292,13 +257,15 @@ class SpeakerNameSettingsTile extends HookWidget {
   }
 }
 
-class EditNameDialog extends HookWidget {
-  const EditNameDialog({
+class TextEditDialog extends HookWidget {
+  const TextEditDialog({
     Key? key,
     this.initial,
+    this.validator,
   }) : super(key: key);
 
   final String? initial;
+  final String? Function(String?)? validator;
 
   void _return(BuildContext context, String name) {
     Navigator.of(context).pop(name);
@@ -309,29 +276,34 @@ class EditNameDialog extends HookWidget {
     final controller = useTextEditingController(text: initial);
     final theme = Theme.of(context);
     return Dialog(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Theme(
-              data: theme.copyWith(primaryColor: theme.accentColor),
-              child: TextFormField(
-                autofocus: true,
-                controller: controller,
-                onFieldSubmitted: (name) => _return(context, name),
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: 500),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Theme(
+                data: theme.copyWith(primaryColor: theme.accentColor),
+                child: TextFormField(
+                  autofocus: true,
+                  controller: controller,
+                  onFieldSubmitted: (name) => _return(context, name),
+                  autovalidateMode: AutovalidateMode.always,
+                  validator: validator,
+                ),
               ),
             ),
-          ),
-          ButtonBar(
-            children: [
-              ElevatedButton(
-                child: Text('Ok'),
-                onPressed: () => _return(context, controller.text),
-              )
-            ],
-          ),
-        ],
+            ButtonBar(
+              children: [
+                ElevatedButton(
+                  child: Text('Ok'),
+                  onPressed: () => _return(context, controller.text),
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

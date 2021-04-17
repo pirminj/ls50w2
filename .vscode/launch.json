@@ -13,7 +13,16 @@
             "name": "Pixel 5",
             "request": "launch",
             "type": "dart",
-            "deviceId": "08231FDD4004M9"
+            "deviceId": "08231FDD4004M9",
+        },
+        {
+            "name": "Pixel 5 profile",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "08231FDD4004M9",
+            "args": [
+                "--profile"
+            ]
         },
         {
             "name": "Windows",

@@ -36,13 +36,15 @@ class TurnOnOffButton extends HookWidget {
 
   Widget buildIconButton(
       {IconThemeData? iconTheme, void Function()? onPressed}) {
-    return IconButton(
-      icon: Icon(
-        Icons.power_settings_new,
-        color: iconTheme?.color,
+    return Center(
+      child: IconButton(
+        icon: Icon(
+          Icons.power_settings_new,
+          color: iconTheme?.color,
+        ),
+        iconSize: 60,
+        onPressed: onPressed,
       ),
-      iconSize: 60,
-      onPressed: onPressed,
     );
   }
 }

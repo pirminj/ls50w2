@@ -4,39 +4,51 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:ls50w2/providers.dart';
+import 'package:ls50w2/utils.dart';
 
 class JsonTextPage extends HookWidget {
   const JsonTextPage({
     Key? key,
+    required this.title,
     required this.asyncJsonData,
   }) : super(key: key);
 
+  final String title;
   final AsyncValue<Map<String, Object?>> asyncJsonData;
 
   @override
   Widget build(BuildContext context) {
-    final wrapLines = useState(false);
+    final isLargeScreen = useProvider(isLargeScreenProvider);
+    final wrapLines = useState(isLargeScreen);
+    final Widget switchButton = Switch(
+      value: wrapLines.value,
+      onChanged: (value) => wrapLines.value = value,
+    );
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: Text('Player details'),
+        title: Text(title),
         actions: [
           Center(child: Text('Wrap text')),
-          Switch(
-            value: wrapLines.value,
-            onChanged: (value) => wrapLines.value = value,
-          )
+          if (isDesktop)
+            Tooltip(
+              message: 'You can pan with a rightclick',
+              child: switchButton,
+            )
+          else
+            switchButton,
         ],
       ),
       body: asyncJsonData.when(
         data: (data) => Container(
           constraints: const BoxConstraints.expand(),
-          child: InteractiveViewer(
-            minScale: 0.5,
-            maxScale: 1.5,
-            constrained: wrapLines.value,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
+          child: Scrollbar(
+            child: InteractiveViewer(
+              minScale: 0.5,
+              maxScale: 1.5,
+              scaleEnabled: !isLargeScreen,
+              constrained: wrapLines.value,
               child: SelectableText(
                 JsonEncoder.withIndent('  ').convert(data),
                 style: GoogleFonts.firaMono(),

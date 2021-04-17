@@ -13,6 +13,7 @@ class ElevatedCard extends HookWidget {
   Widget build(BuildContext context) {
     final interacting = useState(false);
     return Card(
+      shadowColor: Theme.of(context).accentColor,
       elevation: interacting.value ? 0 : 16,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(48),

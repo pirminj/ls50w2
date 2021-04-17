@@ -15,3 +15,7 @@ final playerDataProvider = FutureProvider<Map<String, Object?>>((ref) {
 final firmwareUpdateProvider = FutureProvider<Map<String, Object?>>((ref) {
   return ref.watch(clientProvider).getFirmwareData();
 });
+
+final isLargeScreenProvider = ScopedProvider<bool>(
+  (_) => throw UnimplementedError('Provider not overridden'),
+);
