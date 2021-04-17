@@ -18,6 +18,9 @@ A Flutter app to control KEF LS50 Wireless 2 in your local network
   <img src="https://user-images.githubusercontent.com/43973067/115079566-a9f32500-9f01-11eb-9c7a-857d0ac84db7.png" width="250" />
 </p>
 
+![image](https://user-images.githubusercontent.com/43973067/115114357-25e77e80-9f8f-11eb-98fd-fdc658bed006.png)
+![image](https://user-images.githubusercontent.com/43973067/115114363-2d0e8c80-9f8f-11eb-834e-9a76945fa75c.png)
+
 ## How to use
 
 Install flutter and compile to Android or Windows (tested). iOS should also work
