@@ -3,6 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kef_ls50w2_client/kef_ls50w2_client.dart';
+import 'package:ls50w2/common_widgets/text_field_dialog.dart';
+import 'package:ls50w2/utils.dart';
 
 import 'settings.dart';
 import 'settings_model.dart';
@@ -16,7 +18,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: true,
+        automaticallyImplyLeading: !isDesktop,
         title: Text('Settings'),
       ),
       body: Scrollbar(
@@ -204,7 +206,7 @@ class HostSettingsTile extends HookWidget {
   void _edit(BuildContext context, String host) async {
     final String? editedHost = await showDialog(
       context: context,
-      builder: (context) => TextEditDialog(
+      builder: (context) => TextFieldDialog(
         initial: host,
         validator: (value) {
           final exp = RegExp(
@@ -249,62 +251,10 @@ class SpeakerNameSettingsTile extends HookWidget {
   void _edit(BuildContext context, String name) async {
     final String? edited = await showDialog(
       context: context,
-      builder: (context) => TextEditDialog(initial: name),
+      builder: (context) => TextFieldDialog(initial: name),
     );
     if (edited != null && edited != name) {
       context.read(Settings.provider.notifier).updateName(edited);
     }
-  }
-}
-
-class TextEditDialog extends HookWidget {
-  const TextEditDialog({
-    Key? key,
-    this.initial,
-    this.validator,
-  }) : super(key: key);
-
-  final String? initial;
-  final String? Function(String?)? validator;
-
-  void _return(BuildContext context, String name) {
-    Navigator.of(context).pop(name);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final controller = useTextEditingController(text: initial);
-    final theme = Theme.of(context);
-    return Dialog(
-      child: Container(
-        constraints: const BoxConstraints(maxWidth: 500),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Theme(
-                data: theme.copyWith(primaryColor: theme.accentColor),
-                child: TextFormField(
-                  autofocus: true,
-                  controller: controller,
-                  onFieldSubmitted: (name) => _return(context, name),
-                  autovalidateMode: AutovalidateMode.always,
-                  validator: validator,
-                ),
-              ),
-            ),
-            ButtonBar(
-              children: [
-                ElevatedButton(
-                  child: Text('Ok'),
-                  onPressed: () => _return(context, controller.text),
-                )
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

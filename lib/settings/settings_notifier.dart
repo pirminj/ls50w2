@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kef_ls50w2_client/kef_ls50w2_client.dart';
+import 'package:ls50w2/dsp/dsp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'settings_model.dart';
@@ -28,6 +29,8 @@ class Settings extends StateNotifier<SettingsModel> {
         modelColor: ModelColor.mineralWhite,
         showSources: List.from(SpeakerSource.values)
           ..remove(SpeakerSource.standby),
+        selectedEqProfile: 'None',
+        equalizerProfiles: {},
       );
 
   /// Initialize a settings notifier with from [sharedPreferences]
@@ -75,6 +78,32 @@ class Settings extends StateNotifier<SettingsModel> {
 
   void updateSources(List<SpeakerSource> sources) {
     state = state.copyWith(showSources: sources);
+    _saveSettings();
+  }
+
+  void selectEqProfile(String profileName) {
+    state = state.copyWith(selectedEqProfile: profileName);
+  }
+
+  void addEqProfile(String profileName) {
+    state = state.copyWith(
+      selectedEqProfile: profileName,
+      equalizerProfiles: state.equalizerProfiles
+        ..addAll({profileName: EqualizerProfile()}),
+    );
+    _saveSettings();
+  }
+
+  void updateCurrentEQProfile(
+    EqualizerProfile Function(EqualizerProfile) update,
+  ) {
+    state = state.copyWith(
+      equalizerProfiles: state.equalizerProfiles
+        ..update(
+          state.selectedEqProfile,
+          update,
+        ),
+    );
     _saveSettings();
   }
 

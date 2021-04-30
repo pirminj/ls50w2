@@ -27,7 +27,7 @@ class JsonTextPage extends HookWidget {
     );
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: true,
+        automaticallyImplyLeading: !isDesktop,
         title: Text(title),
         actions: [
           Center(child: Text('Wrap text')),

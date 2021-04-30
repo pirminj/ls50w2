@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'common_widgets/json_text_page.dart';
 import 'common_widgets/limited_width_container.dart';
+import 'dsp/dsp.dart';
 import 'providers.dart';
 import 'settings/settings.dart';
 import 'speaker/source_selection.dart';
@@ -80,9 +81,14 @@ class Body extends StatelessWidget {
             SourceSelection(),
             SizedBox(height: 32),
             StartPageListTile(
-              label: 'Settings',
+              label: 'App settings',
               leadingIcon: Icons.settings_applications,
               builder: (context) => SettingsPage(),
+            ),
+            StartPageListTile(
+              label: 'Digital Signal Processing',
+              leadingIcon: Icons.signal_cellular_alt,
+              builder: (context) => DSPPage(),
             ),
             StartPageListTile(
               label: 'Player details',
@@ -90,7 +96,7 @@ class Body extends StatelessWidget {
               builder: (context) => PlayerDataPage(),
             ),
             StartPageListTile(
-              label: 'Firmware update',
+              label: 'Firmware update info',
               leadingIcon: Icons.update,
               builder: (context) => FirmwareUpdatePage(),
             ),
@@ -161,20 +167,6 @@ class StartPageListTile extends StatelessWidget {
   }
 }
 
-class FirmwareUpdatePage extends HookWidget {
-  const FirmwareUpdatePage({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return JsonTextPage(
-      title: 'Firmware update info',
-      asyncJsonData: useProvider(firmwareUpdateProvider),
-    );
-  }
-}
-
 class PlayerDataPage extends HookWidget {
   const PlayerDataPage({
     Key? key,
@@ -185,6 +177,20 @@ class PlayerDataPage extends HookWidget {
     return JsonTextPage(
       title: 'Player data',
       asyncJsonData: useProvider(playerDataProvider),
+    );
+  }
+}
+
+class FirmwareUpdatePage extends HookWidget {
+  const FirmwareUpdatePage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return JsonTextPage(
+      title: 'Firmware update',
+      asyncJsonData: useProvider(firmwareUpdateProvider),
     );
   }
 }

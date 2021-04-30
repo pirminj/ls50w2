@@ -80,6 +80,17 @@ class SourceSelectButton extends HookWidget {
           onPressed: () async {
             if (isCurrent) return;
             notifier.selectSource(source);
+            context.read(Settings.provider).equalizerProfiles.forEach(
+              (name, profile) {
+                if (profile.autoSwitch == source) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Switched to EQ Profile $name'),
+                    ),
+                  );
+                }
+              },
+            );
           },
         );
       },

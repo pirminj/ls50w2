@@ -48,6 +48,7 @@ ThemeData constructThemeFromColors(ColorSet colorSet) {
     appBarTheme: AppBarTheme(
       elevation: 0,
       centerTitle: true,
+      color: colorSet.primaryLightColor,
     ),
     cardColor: colorSet.primaryColor,
     dialogTheme: DialogTheme(
