@@ -21,7 +21,8 @@ class _$EqualizerProfileTearOff {
   const _$EqualizerProfileTearOff();
 
   _EqualizerProfile call(
-      {double? deskMode = null,
+      {required String name,
+      double? deskMode = null,
       double? wallMode = null,
       double trebbleTrim = 0.0,
       bool phaseCorrection = true,
@@ -34,6 +35,7 @@ class _$EqualizerProfileTearOff {
       bool subPolarity = false,
       SpeakerSource? autoSwitch = null}) {
     return _EqualizerProfile(
+      name: name,
       deskMode: deskMode,
       wallMode: wallMode,
       trebbleTrim: trebbleTrim,
@@ -59,7 +61,7 @@ const $EqualizerProfile = _$EqualizerProfileTearOff();
 
 /// @nodoc
 mixin _$EqualizerProfile {
-// speaker
+  String get name => throw _privateConstructorUsedError; // speaker
   double? get deskMode => throw _privateConstructorUsedError;
   double? get wallMode => throw _privateConstructorUsedError;
   double get trebbleTrim => throw _privateConstructorUsedError;
@@ -86,7 +88,8 @@ abstract class $EqualizerProfileCopyWith<$Res> {
           EqualizerProfile value, $Res Function(EqualizerProfile) then) =
       _$EqualizerProfileCopyWithImpl<$Res>;
   $Res call(
-      {double? deskMode,
+      {String name,
+      double? deskMode,
       double? wallMode,
       double trebbleTrim,
       bool phaseCorrection,
@@ -111,6 +114,7 @@ class _$EqualizerProfileCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? name = freezed,
     Object? deskMode = freezed,
     Object? wallMode = freezed,
     Object? trebbleTrim = freezed,
@@ -125,6 +129,10 @@ class _$EqualizerProfileCopyWithImpl<$Res>
     Object? autoSwitch = freezed,
   }) {
     return _then(_value.copyWith(
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
       deskMode: deskMode == freezed
           ? _value.deskMode
           : deskMode // ignore: cast_nullable_to_non_nullable
@@ -185,7 +193,8 @@ abstract class _$EqualizerProfileCopyWith<$Res>
       __$EqualizerProfileCopyWithImpl<$Res>;
   @override
   $Res call(
-      {double? deskMode,
+      {String name,
+      double? deskMode,
       double? wallMode,
       double trebbleTrim,
       bool phaseCorrection,
@@ -212,6 +221,7 @@ class __$EqualizerProfileCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? name = freezed,
     Object? deskMode = freezed,
     Object? wallMode = freezed,
     Object? trebbleTrim = freezed,
@@ -226,6 +236,10 @@ class __$EqualizerProfileCopyWithImpl<$Res>
     Object? autoSwitch = freezed,
   }) {
     return _then(_EqualizerProfile(
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
       deskMode: deskMode == freezed
           ? _value.deskMode
           : deskMode // ignore: cast_nullable_to_non_nullable
@@ -283,7 +297,8 @@ class __$EqualizerProfileCopyWithImpl<$Res>
 /// @nodoc
 class _$_EqualizerProfile implements _EqualizerProfile {
   _$_EqualizerProfile(
-      {this.deskMode = null,
+      {required this.name,
+      this.deskMode = null,
       this.wallMode = null,
       this.trebbleTrim = 0.0,
       this.phaseCorrection = true,
@@ -299,6 +314,8 @@ class _$_EqualizerProfile implements _EqualizerProfile {
   factory _$_EqualizerProfile.fromJson(Map<String, dynamic> json) =>
       _$_$_EqualizerProfileFromJson(json);
 
+  @override
+  final String name;
   @JsonKey(defaultValue: null)
   @override // speaker
   final double? deskMode;
@@ -338,13 +355,15 @@ class _$_EqualizerProfile implements _EqualizerProfile {
 
   @override
   String toString() {
-    return 'EqualizerProfile(deskMode: $deskMode, wallMode: $wallMode, trebbleTrim: $trebbleTrim, phaseCorrection: $phaseCorrection, bassExtension: $bassExtension, subwooferCount: $subwooferCount, subwooferChannel: $subwooferChannel, highpassFrequency: $highpassFrequency, lowpassFrequency: $lowpassFrequency, subGain: $subGain, subPolarity: $subPolarity, autoSwitch: $autoSwitch)';
+    return 'EqualizerProfile(name: $name, deskMode: $deskMode, wallMode: $wallMode, trebbleTrim: $trebbleTrim, phaseCorrection: $phaseCorrection, bassExtension: $bassExtension, subwooferCount: $subwooferCount, subwooferChannel: $subwooferChannel, highpassFrequency: $highpassFrequency, lowpassFrequency: $lowpassFrequency, subGain: $subGain, subPolarity: $subPolarity, autoSwitch: $autoSwitch)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _EqualizerProfile &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.deskMode, deskMode) ||
                 const DeepCollectionEquality()
                     .equals(other.deskMode, deskMode)) &&
@@ -386,6 +405,7 @@ class _$_EqualizerProfile implements _EqualizerProfile {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(deskMode) ^
       const DeepCollectionEquality().hash(wallMode) ^
       const DeepCollectionEquality().hash(trebbleTrim) ^
@@ -412,7 +432,8 @@ class _$_EqualizerProfile implements _EqualizerProfile {
 
 abstract class _EqualizerProfile implements EqualizerProfile {
   factory _EqualizerProfile(
-      {double? deskMode,
+      {required String name,
+      double? deskMode,
       double? wallMode,
       double trebbleTrim,
       bool phaseCorrection,
@@ -428,6 +449,8 @@ abstract class _EqualizerProfile implements EqualizerProfile {
   factory _EqualizerProfile.fromJson(Map<String, dynamic> json) =
       _$_EqualizerProfile.fromJson;
 
+  @override
+  String get name => throw _privateConstructorUsedError;
   @override // speaker
   double? get deskMode => throw _privateConstructorUsedError;
   @override

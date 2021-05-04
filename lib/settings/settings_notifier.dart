@@ -30,7 +30,9 @@ class Settings extends StateNotifier<SettingsModel> {
         showSources: List.from(SpeakerSource.values)
           ..remove(SpeakerSource.standby),
         selectedEqProfile: 'None',
-        equalizerProfiles: {},
+        equalizerProfiles: {
+          'None': EqualizerProfile(name: 'None'),
+        },
       );
 
   /// Initialize a settings notifier with from [sharedPreferences]
@@ -85,11 +87,18 @@ class Settings extends StateNotifier<SettingsModel> {
     state = state.copyWith(selectedEqProfile: profileName);
   }
 
-  void addEqProfile(String profileName) {
+  void addEqProfile(String name, EqualizerProfile profile) {
     state = state.copyWith(
-      selectedEqProfile: profileName,
-      equalizerProfiles: state.equalizerProfiles
-        ..addAll({profileName: EqualizerProfile()}),
+      selectedEqProfile: name,
+      equalizerProfiles: state.equalizerProfiles..addAll({name: profile}),
+    );
+    _saveSettings();
+  }
+
+  void deleteEQProfile(String name) {
+    state = state.copyWith(
+      equalizerProfiles: state.equalizerProfiles..remove(name),
+      selectedEqProfile: 'None',
     );
     _saveSettings();
   }
@@ -106,6 +115,20 @@ class Settings extends StateNotifier<SettingsModel> {
     );
     _saveSettings();
   }
+
+  void updateEQProfile(EqualizerProfile profile) {
+    state = state.copyWith(
+      equalizerProfiles: state.equalizerProfiles
+        ..addAll({state.selectedEqProfile: profile}),
+    );
+    _saveSettings();
+  }
+
+  EqualizerProfile get currentEqProfile =>
+      state.equalizerProfiles[state.selectedEqProfile]!;
+
+  Map<String, EqualizerProfile> get equalizerProfiles =>
+      state.equalizerProfiles;
 
   void _saveSettings() async {
     final success = await _sharedPreferences.setString(

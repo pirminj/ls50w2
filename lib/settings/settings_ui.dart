@@ -18,7 +18,6 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: !isDesktop,
         title: Text('Settings'),
       ),
       body: Scrollbar(
@@ -91,7 +90,7 @@ class VisibleSourcesSelection extends HookWidget {
                 controlAffinity: ListTileControlAffinity.leading,
                 contentPadding: _settingsListTileContentPadding,
                 activeColor: theme.accentColor,
-                title: Text(source.name()),
+                title: Text(source.name),
                 value: sources.contains(source),
                 onChanged: (_) => context
                     .read(Settings.provider.notifier)

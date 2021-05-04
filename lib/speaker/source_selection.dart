@@ -83,11 +83,13 @@ class SourceSelectButton extends HookWidget {
             context.read(Settings.provider).equalizerProfiles.forEach(
               (name, profile) {
                 if (profile.autoSwitch == source) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Switched to EQ Profile $name'),
-                    ),
-                  );
+                  ScaffoldMessenger.of(context)
+                    ..removeCurrentSnackBar()
+                    ..showSnackBar(
+                      SnackBar(
+                        content: Text('Switched to EQ Profile $name'),
+                      ),
+                    );
                 }
               },
             );
@@ -112,6 +114,7 @@ class SourceSelectButton extends HookWidget {
           border: Border.all(width: 4, color: color),
         ),
         child: IconButton(
+          tooltip: source.name,
           iconSize: 32,
           splashRadius: radius,
           color: color,

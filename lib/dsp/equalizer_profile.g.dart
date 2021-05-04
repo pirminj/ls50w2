@@ -8,6 +8,7 @@ part of 'equalizer_profile.dart';
 
 _$_EqualizerProfile _$_$_EqualizerProfileFromJson(Map<String, dynamic> json) {
   return _$_EqualizerProfile(
+    name: json['name'] as String,
     deskMode: (json['deskMode'] as num?)?.toDouble(),
     wallMode: (json['wallMode'] as num?)?.toDouble(),
     trebbleTrim: (json['trebbleTrim'] as num?)?.toDouble() ?? 0.0,
@@ -31,7 +32,9 @@ _$_EqualizerProfile _$_$_EqualizerProfileFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$_$_EqualizerProfileToJson(_$_EqualizerProfile instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {

@@ -4,8 +4,6 @@ import 'package:kef_ls50w2_client/kef_ls50w2_client.dart';
 part 'equalizer_profile.freezed.dart';
 part 'equalizer_profile.g.dart';
 
-enum BassExtension { less, standard, extra }
-
 enum SubwooferCount { none, one, two }
 
 enum SubwooferChannel { mono, stereo }
@@ -13,6 +11,7 @@ enum SubwooferChannel { mono, stereo }
 @freezed
 class EqualizerProfile with _$EqualizerProfile {
   factory EqualizerProfile({
+    required String name,
     // speaker
     @Default(null) double? deskMode,
     @Default(null) double? wallMode,

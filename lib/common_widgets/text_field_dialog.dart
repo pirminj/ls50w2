@@ -30,15 +30,12 @@ class TextFieldDialog extends HookWidget {
             if (title != null) title!,
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Theme(
-                data: theme.copyWith(primaryColor: theme.accentColor),
-                child: TextFormField(
-                  autofocus: true,
-                  controller: controller,
-                  onFieldSubmitted: (name) => _return(context, name),
-                  autovalidateMode: AutovalidateMode.always,
-                  validator: validator,
-                ),
+              child: TextFormField(
+                autofocus: true,
+                controller: controller,
+                onFieldSubmitted: (name) => _return(context, name),
+                autovalidateMode: AutovalidateMode.always,
+                validator: validator,
               ),
             ),
             ButtonBar(

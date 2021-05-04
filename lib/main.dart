@@ -18,7 +18,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final preferences = await SharedPreferences.getInstance();
-
   runApp(
     ProviderScope(
       observers: [Logger()],
@@ -89,6 +88,7 @@ class Body extends StatelessWidget {
               label: 'Digital Signal Processing',
               leadingIcon: Icons.signal_cellular_alt,
               builder: (context) => DSPPage(),
+              maxWidth: 1200,
             ),
             StartPageListTile(
               label: 'Player details',
@@ -113,11 +113,13 @@ class StartPageListTile extends StatelessWidget {
     required this.label,
     required this.leadingIcon,
     required this.builder,
+    this.maxWidth = 800,
   }) : super(key: key);
 
   final String label;
   final IconData leadingIcon;
   final WidgetBuilder builder;
+  final double maxWidth;
 
   final contentPadding = const EdgeInsets.symmetric(
     horizontal: 24,
@@ -145,6 +147,7 @@ class StartPageListTile extends StatelessWidget {
                       builder: (context) => ProviderScope(
                         overrides: providerOverrides,
                         child: LimitedWidthContainer(
+                          maxWidth: maxWidth,
                           child: Dialog(
                             clipBehavior: Clip.antiAlias,
                             child: builder(context),

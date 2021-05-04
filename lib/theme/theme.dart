@@ -55,9 +55,8 @@ ThemeData constructThemeFromColors(ColorSet colorSet) {
       backgroundColor: colorSet.primaryColor,
     ),
     inputDecorationTheme: InputDecorationTheme(
-      focusColor: Colors.green,
-      hoverColor: Colors.green,
       border: OutlineInputBorder(),
+      focusColor: colorSet.secondaryColor,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
@@ -65,6 +64,12 @@ ThemeData constructThemeFromColors(ColorSet colorSet) {
           (states) => colorSet.secondaryDarkColor,
         ),
       ),
+    ),
+    sliderTheme: SliderThemeData.fromPrimaryColors(
+      primaryColor: colorSet.secondaryColor,
+      primaryColorDark: colorSet.secondaryDarkColor,
+      primaryColorLight: colorSet.secondaryLightColor,
+      valueIndicatorTextStyle: TextStyle(),
     ),
   );
 }
