@@ -40,7 +40,10 @@ class App extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      scrollBehavior: ScrollBehavior().copyWith(scrollbars: false),
+      scrollBehavior: ScrollBehavior().copyWith(
+        scrollbars: false,
+        physics: BouncingScrollPhysics(),
+      ),
       debugShowCheckedModeBanner: false,
       theme: useProvider(themeProvider),
       home: Scaffold(

@@ -1,5 +1,6 @@
 import 'package:kef_ls50w2_client/kef_ls50w2_client.dart';
 import 'package:ls50w2/dsp/dsp.dart';
+import 'package:ls50w2/dsp/equalizer_profile.dart';
 import 'package:ls50w2/providers.dart';
 import 'package:ls50w2/settings/settings.dart';
 import 'package:riverpod/riverpod.dart';
@@ -75,21 +76,43 @@ class EQProfileNotifier extends StateNotifier<EqualizerProfile> {
     settings.updateEQProfile(state);
   }
 
-  updateTrebleTrim(double trim) {
+  void updateDeskMode(double? deskMode) {
+    state = state.copyWith(deskMode: deskMode);
+    settings.updateEQProfile(state);
+  }
+
+  void updateWallMode(double? wallMode) {
+    state = state.copyWith(wallMode: wallMode);
+    settings.updateEQProfile(state);
+  }
+
+  void updateTrebleTrim(double trim) {
     client.trebleTrim.set(8); // TODO conversion
     state = state.copyWith(trebbleTrim: trim);
     settings.updateEQProfile(state);
   }
 
-  updatePhaseCorrection(bool value) {
+  void updatePhaseCorrection(bool value) {
     client.phaseCorrection.set(value);
     state = state.copyWith(phaseCorrection: value);
     settings.updateEQProfile(state);
   }
 
-  updateBassExtension(BassExtension bassExtension) {
+  void updateBassExtension(BassExtension bassExtension) {
     client.bassExtension.set(bassExtension);
     state = state.copyWith(bassExtension: bassExtension);
+    settings.updateEQProfile(state);
+  }
+
+  void updateSubwooferCount(SubwooferCount subwooferCount) {
+    // client.su.set(); TODO: implement
+    state = state.copyWith(subwooferCount: subwooferCount);
+    settings.updateEQProfile(state);
+  }
+
+  void updateSubwooferChannel(SubwooferChannel subwooferChannel) {
+    // client.su.set(); TODO: implement
+    state = state.copyWith(subwooferChannel: subwooferChannel);
     settings.updateEQProfile(state);
   }
 }

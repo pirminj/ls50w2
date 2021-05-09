@@ -3,6 +3,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kef_ls50w2_client/kef_ls50w2_client.dart';
 
+import '../../common_widgets/single_selection_buttons.dart';
+import '../../common_widgets/toggle_expansion_tile.dart';
+import '../../common_widgets/value_slider.dart';
+import '../equalizer_profile.dart';
 import '../equalizer_profile_notifier.dart';
 
 class TrebleTrimTile extends HookWidget {
@@ -21,37 +25,14 @@ class TrebleTrimTile extends HookWidget {
         ListTile(
           title: Text('Treble trim'),
         ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8, right: 8),
-          child: Column(
-            children: [
-              Slider(
-                value: value.value,
-                min: -3,
-                max: 3,
-                label: '$value dB',
-                divisions: 24,
-                onChangeEnd: (value) {
-                  context
-                      .read(EQProfileNotifier.provider.notifier)
-                      .updateTrebleTrim(value);
-                },
-                onChanged: (trim) {
-                  value.value = trim;
-                },
-              ),
-              Row(
-                children: [
-                  SizedBox(width: 16),
-                  Text('-3 dB'),
-                  Spacer(),
-                  Text('0 dB'),
-                  Spacer(),
-                  Text('3 dB'),
-                ],
-              )
-            ],
-          ),
+        ValueSlider(
+          initialValue: trebleTrim / 10,
+          min: -3,
+          max: 3,
+          divisions: 24,
+          onChange: (value) => context
+              .read(EQProfileNotifier.provider.notifier)
+              .updateTrebleTrim(value),
         ),
       ],
     );
@@ -88,41 +69,23 @@ class BassExtensionTile extends HookWidget {
     final bassExtension = useProvider(
       EQProfileNotifier.provider.select((value) => value.bassExtension),
     );
-    final theme = Theme.of(context);
     return Column(
       children: [
         ListTile(
           title: Text('Bass extension'),
         ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 16),
-          child: ToggleButtons(
-            selectedColor: theme.colorScheme.onSecondary,
-            fillColor: theme.colorScheme.secondary,
-            borderRadius: BorderRadius.circular(32),
-            children: [
-              buildButton('Less'),
-              buildButton('Standard'),
-              buildButton('More'),
-            ],
-            isSelected:
-                BassExtension.values.map((e) => e == bassExtension).toList(),
-            onPressed: (index) {
-              context
-                  .read(EQProfileNotifier.provider.notifier)
-                  .updateBassExtension(BassExtension.values[index]);
-            },
-          ),
+        SingleSelectionButtons<BassExtension>(
+          selected: bassExtension,
+          options: {
+            BassExtension.less: 'Less',
+            BassExtension.standard: 'Standard',
+            BassExtension.extra: 'Extra',
+          },
+          onSelected: context
+              .read(EQProfileNotifier.provider.notifier)
+              .updateBassExtension,
         ),
       ],
-    );
-  }
-
-  Container buildButton(String option) {
-    return Container(
-      alignment: Alignment.center,
-      width: 100,
-      child: Text(option),
     );
   }
 }
@@ -137,24 +100,20 @@ class DeskModeTile extends HookWidget {
     final deskMode = useProvider(
       EQProfileNotifier.provider.select((value) => value.deskMode),
     );
-    final _active = useState(deskMode == null);
-    return Column(
-      children: [
-        SwitchListTile(
-          title: Text('Desk mode'),
-          value: _active.value,
-          onChanged: (value) => _active.value = value,
-        ),
-        AnimatedSize(
-          duration: const Duration(milliseconds: 200),
-          child: _active.value
-              ? Slider(
-                  onChanged: (value) => {},
-                  value: 0,
-                )
-              : SizedBox.shrink(),
-        ),
-      ],
+    final notifier = useProvider(EQProfileNotifier.provider.notifier);
+    return ToggleExpansionTile(
+      title: Text('Desk mode'),
+      isExpanded: deskMode != null,
+      onCollapse: () => notifier.updateDeskMode(null),
+      onExpand: () => notifier.updateDeskMode(-3),
+      builder: (context) => ValueSlider(
+        initialValue: deskMode,
+        min: -10,
+        max: 0,
+        unit: 'dB',
+        divisions: 10,
+        onChange: notifier.updateDeskMode,
+      ),
     );
   }
 }
@@ -166,25 +125,81 @@ class WallModeTile extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final deskMode = useProvider(
+    final wallMode = useProvider(
       EQProfileNotifier.provider.select((value) => value.wallMode),
     );
-    final _active = useState(deskMode == null);
+    final notifier = useProvider(EQProfileNotifier.provider.notifier);
+    return ToggleExpansionTile(
+      title: Text('Wall mode'),
+      isExpanded: wallMode != null,
+      onCollapse: () => notifier.updateWallMode(null),
+      onExpand: () => notifier.updateWallMode(-3),
+      builder: (context) => ValueSlider(
+        initialValue: wallMode,
+        min: -10,
+        max: 0,
+        unit: 'dB',
+        divisions: 10,
+        onChange: notifier.updateWallMode,
+      ),
+    );
+  }
+}
+
+class SubwooferCountTile extends HookWidget {
+  const SubwooferCountTile({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
-        SwitchListTile(
-          title: Text('Wall mode'),
-          value: _active.value,
-          onChanged: (value) => _active.value = value,
+        ListTile(
+          title: Text('Select number of subwoofers'),
         ),
-        AnimatedSize(
-          duration: const Duration(milliseconds: 200),
-          child: _active.value
-              ? Slider(
-                  onChanged: (value) => {},
-                  value: 0,
-                )
-              : SizedBox.shrink(),
+        SingleSelectionButtons<SubwooferCount>(
+          selected: useProvider(
+            EQProfileNotifier.provider.select((value) => value.subwooferCount),
+          ),
+          options: {
+            SubwooferCount.none: 'None',
+            SubwooferCount.one: 'One',
+            SubwooferCount.two: 'Two',
+          },
+          onSelected: context
+              .read(EQProfileNotifier.provider.notifier)
+              .updateSubwooferCount,
+        ),
+      ],
+    );
+  }
+}
+
+class SubwooferChannelTile extends HookWidget {
+  const SubwooferChannelTile({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListTile(
+          title: Text('Subwoofer channel'),
+        ),
+        SingleSelectionButtons<SubwooferChannel>(
+          selected: useProvider(
+            EQProfileNotifier.provider
+                .select((value) => value.subwooferChannel),
+          ),
+          options: {
+            SubwooferChannel.mono: 'Mono',
+            SubwooferChannel.stereo: 'Stereo',
+          },
+          onSelected: context
+              .read(EQProfileNotifier.provider.notifier)
+              .updateSubwooferChannel,
         ),
       ],
     );

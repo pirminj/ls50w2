@@ -67,7 +67,7 @@ class SourceSelectButton extends HookWidget {
   Widget build(BuildContext context) {
     final speakerValue = useProvider(Speaker.provider);
     final notifier = useProvider(Speaker.provider.notifier);
-    final selectedColor = Theme.of(context).accentIconTheme.color!;
+    final selectedColor = Colors.white;
     final unselectedColor =
         Theme.of(context).primaryIconTheme.color!.withOpacity(0.4);
 

@@ -31,7 +31,7 @@ ThemeData constructThemeFromColors(ColorSet colorSet) {
       color: colorSet.secondaryColor,
     ),
     toggleableActiveColor: colorSet.secondaryColor,
-    scaffoldBackgroundColor: colorSet.primaryLightColor,
+    scaffoldBackgroundColor: colorSet.primaryColor,
     textTheme: defaultDarkTheme.textTheme.apply(
       bodyColor: colorSet.primaryTextColor,
       displayColor: colorSet.primaryTextColor,
@@ -48,20 +48,22 @@ ThemeData constructThemeFromColors(ColorSet colorSet) {
     appBarTheme: AppBarTheme(
       elevation: 0,
       centerTitle: true,
-      color: colorSet.primaryLightColor,
+      color: colorSet.primaryColor,
     ),
-    cardColor: colorSet.primaryColor,
+    cardColor: colorSet.secondaryColor,
     dialogTheme: DialogTheme(
       backgroundColor: colorSet.primaryColor,
     ),
     inputDecorationTheme: InputDecorationTheme(
-      border: OutlineInputBorder(),
+      border: OutlineInputBorder(
+        borderSide: BorderSide(color: colorSet.secondaryColor),
+      ),
       focusColor: colorSet.secondaryColor,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         backgroundColor: MaterialStateColor.resolveWith(
-          (states) => colorSet.secondaryDarkColor,
+          (states) => colorSet.secondaryColor,
         ),
       ),
     ),
@@ -75,6 +77,13 @@ ThemeData constructThemeFromColors(ColorSet colorSet) {
       behavior: SnackBarBehavior.floating,
       shape: StadiumBorder(
         side: BorderSide(),
+      ),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: ButtonStyle(
+        foregroundColor: MaterialStateColor.resolveWith(
+          (states) => colorSet.secondaryLightColor,
+        ),
       ),
     ),
   );
@@ -96,26 +105,10 @@ final ThemeData mineralWhiteTheme =
   ),
 );
 
-final ThemeData carbonBlackTheme =
-    constructThemeFromColors(carbonBlackColors).copyWith(
-  textButtonTheme: TextButtonThemeData(
-    style: ButtonStyle(
-      foregroundColor: MaterialStateColor.resolveWith(
-        (states) => carbonBlackColors.secondaryLightColor,
-      ),
-    ),
-  ),
-);
+final ThemeData carbonBlackTheme = constructThemeFromColors(carbonBlackColors);
 
 final ThemeData titaniumGreyTheme =
     constructThemeFromColors(titaniumGreyColors).copyWith(
-  textButtonTheme: TextButtonThemeData(
-    style: ButtonStyle(
-      foregroundColor: MaterialStateColor.resolveWith(
-        (states) => titaniumGreyColors.secondaryLightColor,
-      ),
-    ),
-  ),
   dialogTheme: DialogTheme(
     backgroundColor: titaniumGreyColors.primaryDarkColor,
   ),
@@ -123,13 +116,6 @@ final ThemeData titaniumGreyTheme =
 
 final ThemeData crimsonRedTheme =
     constructThemeFromColors(crimsonRedColors).copyWith(
-  textButtonTheme: TextButtonThemeData(
-    style: ButtonStyle(
-      foregroundColor: MaterialStateColor.resolveWith(
-        (states) => crimsonRedColors.secondaryLightColor,
-      ),
-    ),
-  ),
   dialogTheme: DialogTheme(
     backgroundColor: crimsonRedColors.primaryDarkColor,
   ),

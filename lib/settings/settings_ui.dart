@@ -185,7 +185,7 @@ class ModelColorSelection extends HookWidget {
                             padding: const EdgeInsets.only(left: 16),
                             child: Text(
                               modelColor.name,
-                              style: GoogleFonts.lato(fontSize: 24),
+                              style: GoogleFonts.lato(fontSize: 20),
                             ),
                           ),
                         ],

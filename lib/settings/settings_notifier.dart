@@ -97,6 +97,7 @@ class Settings extends StateNotifier<SettingsModel> {
   }
 
   void deleteEQProfile(String name) {
+    if (name == 'None') return;
     state = state.copyWith(
       equalizerProfiles: state.equalizerProfiles..remove(name),
       selectedEqProfile: 'None',
