@@ -25,6 +25,7 @@ class _$SettingsModelTearOff {
       required ModelColor modelColor,
       required String host,
       required List<SpeakerSource> showSources,
+      bool showOnOffButton = true,
       String selectedEqProfile = 'None',
       Map<String, EqualizerProfile> equalizerProfiles = const {}}) {
     return _SettingsModel(
@@ -32,6 +33,7 @@ class _$SettingsModelTearOff {
       modelColor: modelColor,
       host: host,
       showSources: showSources,
+      showOnOffButton: showOnOffButton,
       selectedEqProfile: selectedEqProfile,
       equalizerProfiles: equalizerProfiles,
     );
@@ -51,6 +53,7 @@ mixin _$SettingsModel {
   ModelColor get modelColor => throw _privateConstructorUsedError;
   String get host => throw _privateConstructorUsedError;
   List<SpeakerSource> get showSources => throw _privateConstructorUsedError;
+  bool get showOnOffButton => throw _privateConstructorUsedError;
   String get selectedEqProfile => throw _privateConstructorUsedError;
   Map<String, EqualizerProfile> get equalizerProfiles =>
       throw _privateConstructorUsedError;
@@ -71,6 +74,7 @@ abstract class $SettingsModelCopyWith<$Res> {
       ModelColor modelColor,
       String host,
       List<SpeakerSource> showSources,
+      bool showOnOffButton,
       String selectedEqProfile,
       Map<String, EqualizerProfile> equalizerProfiles});
 }
@@ -90,6 +94,7 @@ class _$SettingsModelCopyWithImpl<$Res>
     Object? modelColor = freezed,
     Object? host = freezed,
     Object? showSources = freezed,
+    Object? showOnOffButton = freezed,
     Object? selectedEqProfile = freezed,
     Object? equalizerProfiles = freezed,
   }) {
@@ -110,6 +115,10 @@ class _$SettingsModelCopyWithImpl<$Res>
           ? _value.showSources
           : showSources // ignore: cast_nullable_to_non_nullable
               as List<SpeakerSource>,
+      showOnOffButton: showOnOffButton == freezed
+          ? _value.showOnOffButton
+          : showOnOffButton // ignore: cast_nullable_to_non_nullable
+              as bool,
       selectedEqProfile: selectedEqProfile == freezed
           ? _value.selectedEqProfile
           : selectedEqProfile // ignore: cast_nullable_to_non_nullable
@@ -134,6 +143,7 @@ abstract class _$SettingsModelCopyWith<$Res>
       ModelColor modelColor,
       String host,
       List<SpeakerSource> showSources,
+      bool showOnOffButton,
       String selectedEqProfile,
       Map<String, EqualizerProfile> equalizerProfiles});
 }
@@ -155,6 +165,7 @@ class __$SettingsModelCopyWithImpl<$Res>
     Object? modelColor = freezed,
     Object? host = freezed,
     Object? showSources = freezed,
+    Object? showOnOffButton = freezed,
     Object? selectedEqProfile = freezed,
     Object? equalizerProfiles = freezed,
   }) {
@@ -175,6 +186,10 @@ class __$SettingsModelCopyWithImpl<$Res>
           ? _value.showSources
           : showSources // ignore: cast_nullable_to_non_nullable
               as List<SpeakerSource>,
+      showOnOffButton: showOnOffButton == freezed
+          ? _value.showOnOffButton
+          : showOnOffButton // ignore: cast_nullable_to_non_nullable
+              as bool,
       selectedEqProfile: selectedEqProfile == freezed
           ? _value.selectedEqProfile
           : selectedEqProfile // ignore: cast_nullable_to_non_nullable
@@ -196,6 +211,7 @@ class _$_SettingsModel implements _SettingsModel {
       required this.modelColor,
       required this.host,
       required this.showSources,
+      this.showOnOffButton = true,
       this.selectedEqProfile = 'None',
       this.equalizerProfiles = const {}});
 
@@ -210,6 +226,9 @@ class _$_SettingsModel implements _SettingsModel {
   final String host;
   @override
   final List<SpeakerSource> showSources;
+  @JsonKey(defaultValue: true)
+  @override
+  final bool showOnOffButton;
   @JsonKey(defaultValue: 'None')
   @override
   final String selectedEqProfile;
@@ -219,7 +238,7 @@ class _$_SettingsModel implements _SettingsModel {
 
   @override
   String toString() {
-    return 'SettingsModel(name: $name, modelColor: $modelColor, host: $host, showSources: $showSources, selectedEqProfile: $selectedEqProfile, equalizerProfiles: $equalizerProfiles)';
+    return 'SettingsModel(name: $name, modelColor: $modelColor, host: $host, showSources: $showSources, showOnOffButton: $showOnOffButton, selectedEqProfile: $selectedEqProfile, equalizerProfiles: $equalizerProfiles)';
   }
 
   @override
@@ -236,6 +255,9 @@ class _$_SettingsModel implements _SettingsModel {
             (identical(other.showSources, showSources) ||
                 const DeepCollectionEquality()
                     .equals(other.showSources, showSources)) &&
+            (identical(other.showOnOffButton, showOnOffButton) ||
+                const DeepCollectionEquality()
+                    .equals(other.showOnOffButton, showOnOffButton)) &&
             (identical(other.selectedEqProfile, selectedEqProfile) ||
                 const DeepCollectionEquality()
                     .equals(other.selectedEqProfile, selectedEqProfile)) &&
@@ -251,6 +273,7 @@ class _$_SettingsModel implements _SettingsModel {
       const DeepCollectionEquality().hash(modelColor) ^
       const DeepCollectionEquality().hash(host) ^
       const DeepCollectionEquality().hash(showSources) ^
+      const DeepCollectionEquality().hash(showOnOffButton) ^
       const DeepCollectionEquality().hash(selectedEqProfile) ^
       const DeepCollectionEquality().hash(equalizerProfiles);
 
@@ -271,6 +294,7 @@ abstract class _SettingsModel implements SettingsModel {
       required ModelColor modelColor,
       required String host,
       required List<SpeakerSource> showSources,
+      bool showOnOffButton,
       String selectedEqProfile,
       Map<String, EqualizerProfile> equalizerProfiles}) = _$_SettingsModel;
 
@@ -285,6 +309,8 @@ abstract class _SettingsModel implements SettingsModel {
   String get host => throw _privateConstructorUsedError;
   @override
   List<SpeakerSource> get showSources => throw _privateConstructorUsedError;
+  @override
+  bool get showOnOffButton => throw _privateConstructorUsedError;
   @override
   String get selectedEqProfile => throw _privateConstructorUsedError;
   @override

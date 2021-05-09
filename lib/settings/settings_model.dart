@@ -12,6 +12,7 @@ class SettingsModel with _$SettingsModel {
     required ModelColor modelColor,
     required String host,
     required List<SpeakerSource> showSources,
+    @Default(true) bool showOnOffButton,
     @Default('None') String selectedEqProfile,
     @Default({}) Map<String, EqualizerProfile> equalizerProfiles,
   }) = _SettingsModel;

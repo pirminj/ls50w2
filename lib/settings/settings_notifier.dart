@@ -78,8 +78,8 @@ class Settings extends StateNotifier<SettingsModel> {
     _saveSettings();
   }
 
-  void updateSources(List<SpeakerSource> sources) {
-    state = state.copyWith(showSources: sources);
+  void updateOnOffButtonVisibility(bool show) {
+    state = state.copyWith(showOnOffButton: show);
     _saveSettings();
   }
 

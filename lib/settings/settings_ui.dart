@@ -34,6 +34,7 @@ class SettingsPage extends HookWidget {
           ModelColorSelection(),
           Divider(),
           VisibleSourcesSelection(),
+          OnOffButtonVisibilityTile(),
           Divider(),
           Container(
             constraints: BoxConstraints.expand(height: 72),
@@ -274,5 +275,25 @@ class SpeakerNameSettingsTile extends HookWidget {
     if (edited != null && edited != name) {
       context.read(Settings.provider.notifier).updateName(edited);
     }
+  }
+}
+
+class OnOffButtonVisibilityTile extends HookWidget {
+  const OnOffButtonVisibilityTile({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final show = useProvider(
+      Settings.provider.select((settings) => settings.showOnOffButton),
+    );
+    return SwitchListTile(
+      title: Text('Show On/Off button on main page'),
+      value: show,
+      onChanged: (value) => context
+          .read(Settings.provider.notifier)
+          .updateOnOffButtonVisibility(value),
+    );
   }
 }
