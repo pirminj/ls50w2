@@ -71,6 +71,12 @@ ThemeData constructThemeFromColors(ColorSet colorSet) {
       primaryColorLight: colorSet.secondaryLightColor,
       valueIndicatorTextStyle: TextStyle(),
     ),
+    snackBarTheme: SnackBarThemeData(
+      behavior: SnackBarBehavior.floating,
+      shape: StadiumBorder(
+        side: BorderSide(),
+      ),
+    ),
   );
 }
 

@@ -85,6 +85,7 @@ class Settings extends StateNotifier<SettingsModel> {
 
   void selectEqProfile(String profileName) {
     state = state.copyWith(selectedEqProfile: profileName);
+    _saveSettings();
   }
 
   void addEqProfile(String name, EqualizerProfile profile) {
@@ -142,6 +143,7 @@ class Settings extends StateNotifier<SettingsModel> {
   void resetSettings() {
     if (_sharedPreferences.containsKey('settings'))
       _sharedPreferences.remove('settings');
+    _sharedPreferences.clear();
     state = defaultSettings();
   }
 }

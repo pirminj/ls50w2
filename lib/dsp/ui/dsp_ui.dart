@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kef_ls50w2_client/kef_ls50w2_client.dart';
 import 'package:ls50w2/common_widgets/border_container.dart';
+import 'package:ls50w2/common_widgets/details_page.dart';
 import 'package:ls50w2/dsp/equalizer_profile_notifier.dart';
 import 'package:ls50w2/speaker/source_selection.dart';
 import 'package:ls50w2/utils.dart';
@@ -18,11 +19,9 @@ class DSPPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Equalizer Settings'),
-      ),
-      body: ListView(
+    return DetailsPage(
+      title: 'Equalizer Settings',
+      child: ListView(
         children: [
           Container(
             padding: const EdgeInsets.all(16),
@@ -204,24 +203,11 @@ class EQProfileSettings extends HookWidget {
         ? Container()
         : Padding(
             padding: const EdgeInsets.all(8.0),
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                if (constraints.maxWidth > 900)
-                  return Row(
-                    children: [
-                      Flexible(child: SpeakerSettingsCard()),
-                      Flexible(child: SubwooferSettingsCard()),
-                    ],
-                  );
-                else {
-                  return Column(
-                    children: [
-                      SpeakerSettingsCard(),
-                      SubwooferSettingsCard(),
-                    ],
-                  );
-                }
-              },
+            child: Column(
+              children: [
+                SpeakerSettingsCard(),
+                SubwooferSettingsCard(),
+              ],
             ),
           );
   }

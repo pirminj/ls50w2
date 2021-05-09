@@ -17,5 +17,21 @@ final firmwareUpdateProvider = FutureProvider<Map<String, Object?>>((ref) {
 });
 
 final isLargeScreenProvider = ScopedProvider<bool>(
-  (_) => throw UnimplementedError('Provider not overridden'),
+  (_) => true,
 );
+
+enum Details {
+  appSettings,
+  dsp,
+  player,
+  firmware,
+}
+
+final detailsProvider = StateProvider<Details?>((_) => null);
+
+class Logger extends ProviderObserver {
+  @override
+  void didUpdateProvider(ProviderBase provider, Object? newValue) {
+    print("${provider.name ?? provider.runtimeType}: $newValue");
+  }
+}

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ls50w2/providers.dart';
-import 'package:ls50w2/utils.dart';
+
+import 'details_page.dart';
 
 class JsonTextPage extends HookWidget {
   const JsonTextPage({
@@ -19,36 +19,15 @@ class JsonTextPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLargeScreen = useProvider(isLargeScreenProvider);
-    final wrapLines = useState(isLargeScreen);
-    final Widget switchButton = Switch(
-      value: wrapLines.value,
-      onChanged: (value) => wrapLines.value = value,
-    );
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: !isDesktop,
-        title: Text(title),
-        actions: [
-          Center(child: Text('Wrap text')),
-          if (isDesktop)
-            Tooltip(
-              message: 'You can pan with a rightclick',
-              child: switchButton,
-            )
-          else
-            switchButton,
-        ],
-      ),
-      body: asyncJsonData.when(
-        data: (data) => Container(
-          constraints: const BoxConstraints.expand(),
-          child: Scrollbar(
-            child: InteractiveViewer(
-              minScale: 0.5,
-              maxScale: 1.5,
-              scaleEnabled: !isLargeScreen,
-              constrained: wrapLines.value,
+    return DetailsPage(
+      title: title,
+      child: asyncJsonData.when(
+        data: (data) => Scrollbar(
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Container(
+              // constraints: const BoxConstraints.expand(),
+              padding: const EdgeInsets.symmetric(horizontal: 32),
               child: SelectableText(
                 JsonEncoder.withIndent('  ').convert(data),
                 style: GoogleFonts.firaMono(),

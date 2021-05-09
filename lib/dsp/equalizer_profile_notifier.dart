@@ -53,6 +53,7 @@ class EQProfileNotifier extends StateNotifier<EqualizerProfile> {
     if (profile == null) {
       throw StateError('EQ Profile $name not found');
     }
+    settings.selectEqProfile(name);
     _applyProfile(profile);
     state = profile;
   }

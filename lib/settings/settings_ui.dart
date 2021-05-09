@@ -3,59 +3,78 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kef_ls50w2_client/kef_ls50w2_client.dart';
-import 'package:ls50w2/common_widgets/text_field_dialog.dart';
-import 'package:ls50w2/utils.dart';
 
+import '../common_widgets/details_page.dart';
+import '../common_widgets/text_field_dialog.dart';
+import '../utils.dart';
 import 'settings.dart';
 import 'settings_model.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends HookWidget {
   const SettingsPage({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Settings'),
+    return DetailsPage(
+      title: 'Details',
+      child: ScrollView(
+        children: [
+          ListTile(
+            title: Text(
+              'Speaker',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            dense: true,
+          ),
+          SpeakerNameSettingsTile(),
+          HostSettingsTile(),
+          Divider(),
+          ModelColorSelection(),
+          Divider(),
+          VisibleSourcesSelection(),
+          Divider(),
+          Container(
+            constraints: BoxConstraints.expand(height: 72),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: ElevatedButton(
+              child: Text(
+                'Reset app settings',
+                style: TextStyle(fontSize: 20),
+              ),
+              onPressed: () =>
+                  context.read(Settings.provider.notifier).resetSettings(),
+            ),
+          )
+        ],
       ),
-      body: Scrollbar(
-        child: ListView(
-          children: [
-            ListTile(
-              title: Text(
-                'Speaker',
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              dense: true,
-            ),
-            SpeakerNameSettingsTile(),
-            HostSettingsTile(),
-            Divider(),
-            ModelColorSelection(),
-            Divider(),
-            VisibleSourcesSelection(),
-            Divider(),
-            AboutListTile(
-              applicationName: 'LS50W2 control (unofficial)',
-              applicationVersion: '0.1',
-              applicationLegalese: 'A rights belong to their respective owners',
-              dense: false,
-            ),
-            Container(
-              constraints: BoxConstraints.expand(height: 72),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: ElevatedButton(
-                child: Text(
-                  'Reset app settings',
-                  style: TextStyle(fontSize: 20),
-                ),
-                onPressed: () =>
-                    context.read(Settings.provider.notifier).resetSettings(),
-              ),
-            )
-          ],
+    );
+  }
+}
+
+class ScrollView extends HookWidget {
+  const ScrollView({
+    Key? key,
+    required this.children,
+  }) : super(key: key);
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    final ScrollController scrollController = useScrollController();
+    return Scrollbar(
+      controller: scrollController,
+      isAlwaysShown: isDesktop,
+      child: Container(
+        alignment: Alignment.center,
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 600),
+          child: ListView(
+            controller: scrollController,
+            children: children,
+          ),
         ),
       ),
     );
