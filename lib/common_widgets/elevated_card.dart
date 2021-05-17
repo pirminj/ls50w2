@@ -13,23 +13,14 @@ class ElevatedCard extends HookWidget {
   Widget build(BuildContext context) {
     final interacting = useState(false);
     return Card(
-      // shadowColor: Theme.of(context).accentColor,
-      elevation: interacting.value ? 0 : 16,
+      elevation: interacting.value ? 24 : 4,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(48),
       ),
       margin: const EdgeInsets.all(16),
-      child: GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        excludeFromSemantics: true,
-        onTap: () async {
-          interacting.value = true;
-          await Future.delayed(Duration(milliseconds: 200));
-          interacting.value = false;
-        },
-        onTapDown: (_) => interacting.value = true,
-        onTapUp: (_) => interacting.value = false,
-        onTapCancel: () => interacting.value = false,
+      child: MouseRegion(
+        onEnter: (event) => interacting.value = true,
+        onExit: (event) => interacting.value = false,
         child: child,
       ),
     );
