@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kef_ls50w2_client/kef_ls50w2_client.dart';
-import 'package:ls50w2/dsp/equalizer_profile_notifier.dart';
+import '../dsp/equalizer_profile_notifier.dart';
 
 import '../common_widgets/elevated_card.dart';
 import '../settings/settings.dart';

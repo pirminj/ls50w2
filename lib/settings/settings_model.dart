@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kef_ls50w2_client/kef_ls50w2_client.dart';
-import 'package:ls50w2/dsp/equalizer_profile.dart';
+import '../dsp/equalizer_profile.dart';
 
 part 'settings_model.freezed.dart';
 part 'settings_model.g.dart';

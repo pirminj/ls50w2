@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kef_ls50w2_client/kef_ls50w2_client.dart';
-import 'package:ls50w2/dsp/dsp.dart';
+import '../dsp/dsp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'settings_model.dart';

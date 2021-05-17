@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'common_widgets/json_text_page.dart';
 import 'common_widgets/limited_width_container.dart';
@@ -153,6 +154,15 @@ class Main extends StatelessWidget {
                 ),
                 applicationName: 'LS50W2 control (unofficial)',
                 applicationVersion: '0.1',
+                aboutBoxChildren: [
+                  ListTile(
+                    title: Text('@standingsound'),
+                    onTap: () async {
+                      final url = 'https://twitter.com/standingsound';
+                      if (await canLaunch(url)) launch(url);
+                    },
+                  ),
+                ],
                 dense: false,
               ),
             ),

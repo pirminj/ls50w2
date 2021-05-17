@@ -1,8 +1,8 @@
 import 'package:kef_ls50w2_client/kef_ls50w2_client.dart';
-import 'package:ls50w2/dsp/dsp.dart';
-import 'package:ls50w2/dsp/equalizer_profile.dart';
-import 'package:ls50w2/providers.dart';
-import 'package:ls50w2/settings/settings.dart';
+import 'dsp.dart';
+import 'equalizer_profile.dart';
+import '../providers.dart';
+import '../settings/settings.dart';
 import 'package:riverpod/riverpod.dart';
 
 class EQProfileNotifier extends StateNotifier<EqualizerProfile> {
