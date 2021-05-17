@@ -121,14 +121,17 @@ class LinkWithSourceButton extends HookWidget {
       icon: Icon(Icons.link),
       color: hasSource ? Theme.of(context).colorScheme.secondary : null,
       onPressed: () async {
-        final source = await showDialog<String>(
+        final source = await showDialog<SpeakerSource>(
           context: context,
           builder: (context) => SimpleDialog(
             title: Text('Select an input source to trigger this profile'),
             children: [
               SimpleDialogOption(
                 child: Text('None'),
-                onPressed: () => Navigator.of(context).pop('None'),
+                onPressed: () {
+                  notifier.linkWithSource(null);
+                  Navigator.pop(context);
+                },
               ),
               ...SpeakerSource.values.skip(1).map(
                     (source) => SimpleDialogOption(
@@ -142,20 +145,13 @@ class LinkWithSourceButton extends HookWidget {
                             Text('(${takenSources[source]})')
                         ],
                       ),
-                      onPressed: () => Navigator.of(context).pop(source.name),
+                      onPressed: () => Navigator.of(context).pop(source),
                     ),
                   )
             ],
           ),
         );
-        if (source == 'None') {
-          notifier.linkWithSource(null);
-          return;
-        }
-        if (source != null)
-          notifier.linkWithSource(
-            enumFromString(SpeakerSource.values)(source),
-          );
+        if (source != null) notifier.linkWithSource(source);
       },
     );
   }
