@@ -9,11 +9,11 @@ final clientProvider = Provider<KefClient>((ref) {
 });
 
 final playerDataProvider = FutureProvider<Map<String, Object?>>((ref) {
-  return ref.watch(clientProvider).getPlayerData();
+  return ref.watch(clientProvider).playerData.get();
 });
 
 final firmwareUpdateProvider = FutureProvider<Map<String, Object?>>((ref) {
-  return ref.watch(clientProvider).getFirmwareData();
+  return ref.watch(clientProvider).firmwareUpdateInfo.get();
 });
 
 final isLargeScreenProvider = ScopedProvider<bool>(

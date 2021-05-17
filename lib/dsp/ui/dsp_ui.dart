@@ -152,7 +152,10 @@ class LinkWithSourceButton extends HookWidget {
           notifier.linkWithSource(null);
           return;
         }
-        if (source != null) notifier.linkWithSource(toSpeakerSource(source));
+        if (source != null)
+          notifier.linkWithSource(
+            enumFromString(SpeakerSource.values)(source),
+          );
       },
     );
   }
@@ -203,19 +206,22 @@ class EQProfileSettings extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final profile = useProvider(
-      EQProfileNotifier.provider.select((value) => value.name),
+      EQProfileNotifier.provider.select((profile) => profile.name),
     );
-    return profile == 'None'
-        ? Container()
-        : Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                SpeakerSettingsBox(),
-                SubwooferSettingsBox(),
-              ],
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 200),
+      child: profile == 'None'
+          ? Container()
+          : Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  SpeakerSettingsBox(),
+                  SubwooferSettingsBox(),
+                ],
+              ),
             ),
-          );
+    );
   }
 }
 
@@ -262,6 +268,15 @@ class SubwooferSettingsBox extends StatelessWidget {
       child: BorderContainer(
         child: Column(
           children: [
+            ListTile(
+              enabled: false,
+              title: Text(
+                'Work in Progress: Subwoofer settings not working',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.error,
+                ),
+              ),
+            ),
             SubwooferCountTile(),
             SubwooferChannelTile(),
           ],

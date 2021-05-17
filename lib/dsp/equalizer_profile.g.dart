@@ -9,9 +9,11 @@ part of 'equalizer_profile.dart';
 _$_EqualizerProfile _$_$_EqualizerProfileFromJson(Map<String, dynamic> json) {
   return _$_EqualizerProfile(
     name: json['name'] as String,
-    deskMode: (json['deskMode'] as num?)?.toDouble(),
-    wallMode: (json['wallMode'] as num?)?.toDouble(),
-    trebbleTrim: (json['trebbleTrim'] as num?)?.toDouble() ?? 0.0,
+    deskMode: json['deskMode'] as bool? ?? false,
+    deskModeValue: json['deskModeValue'] as int? ?? 10,
+    wallMode: json['wallMode'] as bool? ?? false,
+    wallModeValue: json['wallModeValue'] as int? ?? 10,
+    trebleTrim: json['trebleTrim'] as int? ?? 8,
     phaseCorrection: json['phaseCorrection'] as bool? ?? true,
     bassExtension:
         _$enumDecodeNullable(_$BassExtensionEnumMap, json['bassExtension']) ??
@@ -34,6 +36,15 @@ _$_EqualizerProfile _$_$_EqualizerProfileFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$_$_EqualizerProfileToJson(_$_EqualizerProfile instance) {
   final val = <String, dynamic>{
     'name': instance.name,
+    'deskMode': instance.deskMode,
+    'deskModeValue': instance.deskModeValue,
+    'wallMode': instance.wallMode,
+    'wallModeValue': instance.wallModeValue,
+    'trebleTrim': instance.trebleTrim,
+    'phaseCorrection': instance.phaseCorrection,
+    'bassExtension': _$BassExtensionEnumMap[instance.bassExtension],
+    'subwooferCount': _$SubwooferCountEnumMap[instance.subwooferCount],
+    'subwooferChannel': _$SubwooferChannelEnumMap[instance.subwooferChannel],
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -42,14 +53,6 @@ Map<String, dynamic> _$_$_EqualizerProfileToJson(_$_EqualizerProfile instance) {
     }
   }
 
-  writeNotNull('deskMode', instance.deskMode);
-  writeNotNull('wallMode', instance.wallMode);
-  val['trebbleTrim'] = instance.trebbleTrim;
-  val['phaseCorrection'] = instance.phaseCorrection;
-  val['bassExtension'] = _$BassExtensionEnumMap[instance.bassExtension];
-  val['subwooferCount'] = _$SubwooferCountEnumMap[instance.subwooferCount];
-  val['subwooferChannel'] =
-      _$SubwooferChannelEnumMap[instance.subwooferChannel];
   writeNotNull('highpassFrequency', instance.highpassFrequency);
   writeNotNull('lowpassFrequency', instance.lowpassFrequency);
   val['subGain'] = instance.subGain;

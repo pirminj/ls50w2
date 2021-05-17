@@ -10,9 +10,7 @@ class EQProfileNotifier extends StateNotifier<EqualizerProfile> {
     EqualizerProfile profile,
     this.settings,
     this.client,
-  ) : super(profile) {
-    _fetchProfile();
-  }
+  ) : super(profile);
 
   final Settings settings;
   final KefClient client;
@@ -33,18 +31,22 @@ class EQProfileNotifier extends StateNotifier<EqualizerProfile> {
     name: 'EQProfileNotifier',
   );
 
-  void _fetchProfile() async {
-    currentlyOnSpeaker = EqualizerProfile(
-      name: 'Passthrough',
+  Future<EqualizerProfile> fetchCurrentEQProfile(String name) async {
+    return EqualizerProfile(
+      name: name,
+      deskMode: await client.deskMode.get(),
+      deskModeValue: await client.deskModeSetting.get(),
+      wallMode: await client.wallMode.get(),
+      trebleTrim: await client.trebleTrim.get(),
+      wallModeValue: await client.wallModeSetting.get(),
       phaseCorrection: await client.phaseCorrection.get(),
       bassExtension: await client.bassExtension.get(),
     );
   }
 
-  addProfile(String name) {
-    final newProfile = EqualizerProfile(name: name);
+  addProfile(String name) async {
+    final newProfile = await fetchCurrentEQProfile(name);
     settings.addEqProfile(name, newProfile);
-    _applyProfile(newProfile);
     state = newProfile;
   }
 
@@ -65,8 +67,11 @@ class EQProfileNotifier extends StateNotifier<EqualizerProfile> {
   }
 
   _applyProfile(EqualizerProfile profile) {
-    // client.bassExtension.set(profile.bassExtension);
-    // client.trebleTrim.set(profile.trebbleTrim);
+    client.wallMode.set(profile.wallMode);
+    client.wallModeSetting.set(profile.wallModeValue);
+    client.deskMode.set(profile.deskMode);
+    client.deskModeSetting.set(profile.deskModeValue);
+    client.trebleTrim.set(profile.trebleTrim);
     client.phaseCorrection.set(profile.phaseCorrection);
     client.bassExtension.set(profile.bassExtension);
   }
@@ -76,19 +81,33 @@ class EQProfileNotifier extends StateNotifier<EqualizerProfile> {
     settings.updateEQProfile(state);
   }
 
-  void updateDeskMode(double? deskMode) {
+  void updateDeskMode(bool deskMode) {
+    client.deskMode.set(deskMode);
     state = state.copyWith(deskMode: deskMode);
     settings.updateEQProfile(state);
   }
 
-  void updateWallMode(double? wallMode) {
+  void updateDeskModeValue(int deskModeValue) {
+    client.deskModeSetting.set(deskModeValue);
+    state = state.copyWith(deskModeValue: deskModeValue);
+    settings.updateEQProfile(state);
+  }
+
+  void updateWallMode(bool wallMode) {
+    client.wallMode.set(wallMode);
     state = state.copyWith(wallMode: wallMode);
     settings.updateEQProfile(state);
   }
 
-  void updateTrebleTrim(double trim) {
-    client.trebleTrim.set(8); // TODO conversion
-    state = state.copyWith(trebbleTrim: trim);
+  void updateWallModeValue(int wallModeValue) {
+    client.wallModeSetting.set(wallModeValue.toInt());
+    state = state.copyWith(wallModeValue: wallModeValue);
+    settings.updateEQProfile(state);
+  }
+
+  void updateTrebleTrim(int trebleTrim) {
+    client.trebleTrim.set(trebleTrim);
+    state = state.copyWith(trebleTrim: trebleTrim);
     settings.updateEQProfile(state);
   }
 

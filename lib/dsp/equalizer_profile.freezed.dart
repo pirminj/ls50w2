@@ -22,9 +22,11 @@ class _$EqualizerProfileTearOff {
 
   _EqualizerProfile call(
       {required String name,
-      double? deskMode = null,
-      double? wallMode = null,
-      double trebbleTrim = 0.0,
+      bool deskMode = false,
+      int deskModeValue = 10,
+      bool wallMode = false,
+      int wallModeValue = 10,
+      int trebleTrim = 8,
       bool phaseCorrection = true,
       BassExtension bassExtension = BassExtension.standard,
       SubwooferCount subwooferCount = SubwooferCount.none,
@@ -37,8 +39,10 @@ class _$EqualizerProfileTearOff {
     return _EqualizerProfile(
       name: name,
       deskMode: deskMode,
+      deskModeValue: deskModeValue,
       wallMode: wallMode,
-      trebbleTrim: trebbleTrim,
+      wallModeValue: wallModeValue,
+      trebleTrim: trebleTrim,
       phaseCorrection: phaseCorrection,
       bassExtension: bassExtension,
       subwooferCount: subwooferCount,
@@ -62,9 +66,11 @@ const $EqualizerProfile = _$EqualizerProfileTearOff();
 /// @nodoc
 mixin _$EqualizerProfile {
   String get name => throw _privateConstructorUsedError; // speaker
-  double? get deskMode => throw _privateConstructorUsedError;
-  double? get wallMode => throw _privateConstructorUsedError;
-  double get trebbleTrim => throw _privateConstructorUsedError;
+  bool get deskMode => throw _privateConstructorUsedError;
+  int get deskModeValue => throw _privateConstructorUsedError;
+  bool get wallMode => throw _privateConstructorUsedError;
+  int get wallModeValue => throw _privateConstructorUsedError;
+  int get trebleTrim => throw _privateConstructorUsedError;
   bool get phaseCorrection => throw _privateConstructorUsedError;
   BassExtension get bassExtension =>
       throw _privateConstructorUsedError; // Subwoofer out
@@ -89,9 +95,11 @@ abstract class $EqualizerProfileCopyWith<$Res> {
       _$EqualizerProfileCopyWithImpl<$Res>;
   $Res call(
       {String name,
-      double? deskMode,
-      double? wallMode,
-      double trebbleTrim,
+      bool deskMode,
+      int deskModeValue,
+      bool wallMode,
+      int wallModeValue,
+      int trebleTrim,
       bool phaseCorrection,
       BassExtension bassExtension,
       SubwooferCount subwooferCount,
@@ -116,8 +124,10 @@ class _$EqualizerProfileCopyWithImpl<$Res>
   $Res call({
     Object? name = freezed,
     Object? deskMode = freezed,
+    Object? deskModeValue = freezed,
     Object? wallMode = freezed,
-    Object? trebbleTrim = freezed,
+    Object? wallModeValue = freezed,
+    Object? trebleTrim = freezed,
     Object? phaseCorrection = freezed,
     Object? bassExtension = freezed,
     Object? subwooferCount = freezed,
@@ -136,15 +146,23 @@ class _$EqualizerProfileCopyWithImpl<$Res>
       deskMode: deskMode == freezed
           ? _value.deskMode
           : deskMode // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as bool,
+      deskModeValue: deskModeValue == freezed
+          ? _value.deskModeValue
+          : deskModeValue // ignore: cast_nullable_to_non_nullable
+              as int,
       wallMode: wallMode == freezed
           ? _value.wallMode
           : wallMode // ignore: cast_nullable_to_non_nullable
-              as double?,
-      trebbleTrim: trebbleTrim == freezed
-          ? _value.trebbleTrim
-          : trebbleTrim // ignore: cast_nullable_to_non_nullable
-              as double,
+              as bool,
+      wallModeValue: wallModeValue == freezed
+          ? _value.wallModeValue
+          : wallModeValue // ignore: cast_nullable_to_non_nullable
+              as int,
+      trebleTrim: trebleTrim == freezed
+          ? _value.trebleTrim
+          : trebleTrim // ignore: cast_nullable_to_non_nullable
+              as int,
       phaseCorrection: phaseCorrection == freezed
           ? _value.phaseCorrection
           : phaseCorrection // ignore: cast_nullable_to_non_nullable
@@ -194,9 +212,11 @@ abstract class _$EqualizerProfileCopyWith<$Res>
   @override
   $Res call(
       {String name,
-      double? deskMode,
-      double? wallMode,
-      double trebbleTrim,
+      bool deskMode,
+      int deskModeValue,
+      bool wallMode,
+      int wallModeValue,
+      int trebleTrim,
       bool phaseCorrection,
       BassExtension bassExtension,
       SubwooferCount subwooferCount,
@@ -223,8 +243,10 @@ class __$EqualizerProfileCopyWithImpl<$Res>
   $Res call({
     Object? name = freezed,
     Object? deskMode = freezed,
+    Object? deskModeValue = freezed,
     Object? wallMode = freezed,
-    Object? trebbleTrim = freezed,
+    Object? wallModeValue = freezed,
+    Object? trebleTrim = freezed,
     Object? phaseCorrection = freezed,
     Object? bassExtension = freezed,
     Object? subwooferCount = freezed,
@@ -243,15 +265,23 @@ class __$EqualizerProfileCopyWithImpl<$Res>
       deskMode: deskMode == freezed
           ? _value.deskMode
           : deskMode // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as bool,
+      deskModeValue: deskModeValue == freezed
+          ? _value.deskModeValue
+          : deskModeValue // ignore: cast_nullable_to_non_nullable
+              as int,
       wallMode: wallMode == freezed
           ? _value.wallMode
           : wallMode // ignore: cast_nullable_to_non_nullable
-              as double?,
-      trebbleTrim: trebbleTrim == freezed
-          ? _value.trebbleTrim
-          : trebbleTrim // ignore: cast_nullable_to_non_nullable
-              as double,
+              as bool,
+      wallModeValue: wallModeValue == freezed
+          ? _value.wallModeValue
+          : wallModeValue // ignore: cast_nullable_to_non_nullable
+              as int,
+      trebleTrim: trebleTrim == freezed
+          ? _value.trebleTrim
+          : trebleTrim // ignore: cast_nullable_to_non_nullable
+              as int,
       phaseCorrection: phaseCorrection == freezed
           ? _value.phaseCorrection
           : phaseCorrection // ignore: cast_nullable_to_non_nullable
@@ -298,9 +328,11 @@ class __$EqualizerProfileCopyWithImpl<$Res>
 class _$_EqualizerProfile implements _EqualizerProfile {
   _$_EqualizerProfile(
       {required this.name,
-      this.deskMode = null,
-      this.wallMode = null,
-      this.trebbleTrim = 0.0,
+      this.deskMode = false,
+      this.deskModeValue = 10,
+      this.wallMode = false,
+      this.wallModeValue = 10,
+      this.trebleTrim = 8,
       this.phaseCorrection = true,
       this.bassExtension = BassExtension.standard,
       this.subwooferCount = SubwooferCount.none,
@@ -316,15 +348,21 @@ class _$_EqualizerProfile implements _EqualizerProfile {
 
   @override
   final String name;
-  @JsonKey(defaultValue: null)
+  @JsonKey(defaultValue: false)
   @override // speaker
-  final double? deskMode;
-  @JsonKey(defaultValue: null)
+  final bool deskMode;
+  @JsonKey(defaultValue: 10)
   @override
-  final double? wallMode;
-  @JsonKey(defaultValue: 0.0)
+  final int deskModeValue;
+  @JsonKey(defaultValue: false)
   @override
-  final double trebbleTrim;
+  final bool wallMode;
+  @JsonKey(defaultValue: 10)
+  @override
+  final int wallModeValue;
+  @JsonKey(defaultValue: 8)
+  @override
+  final int trebleTrim;
   @JsonKey(defaultValue: true)
   @override
   final bool phaseCorrection;
@@ -355,7 +393,7 @@ class _$_EqualizerProfile implements _EqualizerProfile {
 
   @override
   String toString() {
-    return 'EqualizerProfile(name: $name, deskMode: $deskMode, wallMode: $wallMode, trebbleTrim: $trebbleTrim, phaseCorrection: $phaseCorrection, bassExtension: $bassExtension, subwooferCount: $subwooferCount, subwooferChannel: $subwooferChannel, highpassFrequency: $highpassFrequency, lowpassFrequency: $lowpassFrequency, subGain: $subGain, subPolarity: $subPolarity, autoSwitch: $autoSwitch)';
+    return 'EqualizerProfile(name: $name, deskMode: $deskMode, deskModeValue: $deskModeValue, wallMode: $wallMode, wallModeValue: $wallModeValue, trebleTrim: $trebleTrim, phaseCorrection: $phaseCorrection, bassExtension: $bassExtension, subwooferCount: $subwooferCount, subwooferChannel: $subwooferChannel, highpassFrequency: $highpassFrequency, lowpassFrequency: $lowpassFrequency, subGain: $subGain, subPolarity: $subPolarity, autoSwitch: $autoSwitch)';
   }
 
   @override
@@ -367,12 +405,18 @@ class _$_EqualizerProfile implements _EqualizerProfile {
             (identical(other.deskMode, deskMode) ||
                 const DeepCollectionEquality()
                     .equals(other.deskMode, deskMode)) &&
+            (identical(other.deskModeValue, deskModeValue) ||
+                const DeepCollectionEquality()
+                    .equals(other.deskModeValue, deskModeValue)) &&
             (identical(other.wallMode, wallMode) ||
                 const DeepCollectionEquality()
                     .equals(other.wallMode, wallMode)) &&
-            (identical(other.trebbleTrim, trebbleTrim) ||
+            (identical(other.wallModeValue, wallModeValue) ||
                 const DeepCollectionEquality()
-                    .equals(other.trebbleTrim, trebbleTrim)) &&
+                    .equals(other.wallModeValue, wallModeValue)) &&
+            (identical(other.trebleTrim, trebleTrim) ||
+                const DeepCollectionEquality()
+                    .equals(other.trebleTrim, trebleTrim)) &&
             (identical(other.phaseCorrection, phaseCorrection) ||
                 const DeepCollectionEquality()
                     .equals(other.phaseCorrection, phaseCorrection)) &&
@@ -407,8 +451,10 @@ class _$_EqualizerProfile implements _EqualizerProfile {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(deskMode) ^
+      const DeepCollectionEquality().hash(deskModeValue) ^
       const DeepCollectionEquality().hash(wallMode) ^
-      const DeepCollectionEquality().hash(trebbleTrim) ^
+      const DeepCollectionEquality().hash(wallModeValue) ^
+      const DeepCollectionEquality().hash(trebleTrim) ^
       const DeepCollectionEquality().hash(phaseCorrection) ^
       const DeepCollectionEquality().hash(bassExtension) ^
       const DeepCollectionEquality().hash(subwooferCount) ^
@@ -433,9 +479,11 @@ class _$_EqualizerProfile implements _EqualizerProfile {
 abstract class _EqualizerProfile implements EqualizerProfile {
   factory _EqualizerProfile(
       {required String name,
-      double? deskMode,
-      double? wallMode,
-      double trebbleTrim,
+      bool deskMode,
+      int deskModeValue,
+      bool wallMode,
+      int wallModeValue,
+      int trebleTrim,
       bool phaseCorrection,
       BassExtension bassExtension,
       SubwooferCount subwooferCount,
@@ -452,11 +500,15 @@ abstract class _EqualizerProfile implements EqualizerProfile {
   @override
   String get name => throw _privateConstructorUsedError;
   @override // speaker
-  double? get deskMode => throw _privateConstructorUsedError;
+  bool get deskMode => throw _privateConstructorUsedError;
   @override
-  double? get wallMode => throw _privateConstructorUsedError;
+  int get deskModeValue => throw _privateConstructorUsedError;
   @override
-  double get trebbleTrim => throw _privateConstructorUsedError;
+  bool get wallMode => throw _privateConstructorUsedError;
+  @override
+  int get wallModeValue => throw _privateConstructorUsedError;
+  @override
+  int get trebleTrim => throw _privateConstructorUsedError;
   @override
   bool get phaseCorrection => throw _privateConstructorUsedError;
   @override

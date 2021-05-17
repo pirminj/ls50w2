@@ -13,9 +13,11 @@ class EqualizerProfile with _$EqualizerProfile {
   factory EqualizerProfile({
     required String name,
     // speaker
-    @Default(null) double? deskMode,
-    @Default(null) double? wallMode,
-    @Default(0.0) double trebbleTrim,
+    @Default(false) bool deskMode,
+    @Default(10) int deskModeValue,
+    @Default(false) bool wallMode,
+    @Default(10) int wallModeValue,
+    @Default(8) int trebleTrim,
     @Default(true) bool phaseCorrection,
     @Default(BassExtension.standard) BassExtension bassExtension,
     // Subwoofer out

@@ -54,7 +54,7 @@ class Speaker extends StateNotifier<AsyncValue<SpeakerStatusModel>> {
   }
 
   void selectSource(SpeakerSource source) {
-    _client.setSource(source);
+    _client.source.set(source);
     state = state.whenData(
       (value) => value.copyWith(
         source: source,

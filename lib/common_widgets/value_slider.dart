@@ -1,24 +1,31 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class ValueSlider extends StatefulWidget {
-  const ValueSlider({
+  ValueSlider({
     Key? key,
     this.unit = 'dB',
-    double? initialValue,
+    required this.initialValue,
+    required this.displayMin,
+    required this.displayMax,
     required this.min,
     required this.max,
-    required this.divisions,
     required this.onChange,
-  })  : value = initialValue ?? max,
+    required this.divisions,
+  })  : value = lerpDouble(displayMin, displayMax, initialValue / max)!,
         super(key: key);
 
+  final int initialValue;
+  final double displayMin;
+  final double displayMax;
   final String unit;
   final double value;
   final double min;
   final double max;
   final int divisions;
 
-  final void Function(double) onChange;
+  final void Function(int) onChange;
 
   @override
   _ValueSliderState createState() => _ValueSliderState();
@@ -54,9 +61,12 @@ class _ValueSliderState extends State<ValueSlider> {
     });
   }
 
-  void onChangeEnd(value) {
+  void onChangeEnd(double value) {
     if (value != _oldValue) {
-      widget.onChange(value);
+      final factor =
+          (value - widget.displayMin) / (widget.displayMax - widget.displayMin);
+      final internal = lerpDouble(widget.min, widget.max, factor)!.toInt();
+      widget.onChange(internal);
       _oldValue = value;
     }
   }
@@ -69,8 +79,8 @@ class _ValueSliderState extends State<ValueSlider> {
         children: [
           Slider(
             value: _value,
-            min: widget.min,
-            max: widget.max,
+            min: widget.displayMin,
+            max: widget.displayMax,
             label: format(_value),
             divisions: widget.divisions,
             onChangeEnd: onChangeEnd,
@@ -79,9 +89,9 @@ class _ValueSliderState extends State<ValueSlider> {
           Row(
             children: [
               SizedBox(width: 16),
-              Text(format(widget.min)),
+              Text(format(widget.displayMin)),
               Spacer(),
-              Text(format(widget.max)),
+              Text(format(widget.displayMax)),
             ],
           ),
         ],

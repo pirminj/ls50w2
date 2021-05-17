@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -17,7 +19,7 @@ class TrebleTrimTile extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final trebleTrim = useProvider(
-      EQProfileNotifier.provider.select((profile) => profile.trebbleTrim),
+      EQProfileNotifier.provider.select((profile) => profile.trebleTrim),
     );
     final value = useState(trebleTrim);
     return Column(
@@ -26,10 +28,12 @@ class TrebleTrimTile extends HookWidget {
           title: Text('Treble trim'),
         ),
         ValueSlider(
-          initialValue: trebleTrim / 10,
-          min: -3,
-          max: 3,
-          divisions: 24,
+          initialValue: trebleTrim,
+          min: 0,
+          max: 16,
+          displayMin: -3,
+          displayMax: 3,
+          divisions: 12,
           onChange: (value) => context
               .read(EQProfileNotifier.provider.notifier)
               .updateTrebleTrim(value),
@@ -100,19 +104,24 @@ class DeskModeTile extends HookWidget {
     final deskMode = useProvider(
       EQProfileNotifier.provider.select((value) => value.deskMode),
     );
+    final value = useProvider(
+      EQProfileNotifier.provider.select((value) => value.deskModeValue),
+    );
     final notifier = useProvider(EQProfileNotifier.provider.notifier);
     return ToggleExpansionTile(
       title: Text('Desk mode'),
-      isExpanded: deskMode != null,
-      onCollapse: () => notifier.updateDeskMode(null),
-      onExpand: () => notifier.updateDeskMode(-3),
+      isExpanded: deskMode,
+      onCollapse: () => notifier.updateDeskMode(false),
+      onExpand: () => notifier.updateDeskMode(true),
       builder: (context) => ValueSlider(
-        initialValue: deskMode,
-        min: -10,
-        max: 0,
+        initialValue: value,
+        min: 0,
+        max: 20,
+        displayMin: -10,
+        displayMax: 0,
         unit: 'dB',
-        divisions: 10,
-        onChange: notifier.updateDeskMode,
+        divisions: 20,
+        onChange: notifier.updateDeskModeValue,
       ),
     );
   }
@@ -126,21 +135,26 @@ class WallModeTile extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final wallMode = useProvider(
-      EQProfileNotifier.provider.select((value) => value.wallMode),
+      EQProfileNotifier.provider.select((profile) => profile.wallMode),
+    );
+    final value = useProvider(
+      EQProfileNotifier.provider.select((profile) => profile.wallModeValue),
     );
     final notifier = useProvider(EQProfileNotifier.provider.notifier);
     return ToggleExpansionTile(
       title: Text('Wall mode'),
-      isExpanded: wallMode != null,
-      onCollapse: () => notifier.updateWallMode(null),
-      onExpand: () => notifier.updateWallMode(-3),
+      isExpanded: wallMode,
+      onCollapse: () => notifier.updateWallMode(false),
+      onExpand: () => notifier.updateWallMode(true),
       builder: (context) => ValueSlider(
-        initialValue: wallMode,
-        min: -10,
-        max: 0,
+        initialValue: value,
+        min: 0,
+        max: 20,
+        displayMin: -10,
+        displayMax: 0,
         unit: 'dB',
-        divisions: 10,
-        onChange: notifier.updateWallMode,
+        divisions: 20,
+        onChange: notifier.updateWallModeValue,
       ),
     );
   }
