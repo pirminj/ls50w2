@@ -42,7 +42,6 @@ class JsonTextPage extends HookWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(error.toString()),
-              Text(stackTrace.toString()),
             ],
           ),
         ),

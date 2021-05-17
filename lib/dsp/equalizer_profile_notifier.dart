@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:kef_ls50w2_client/kef_ls50w2_client.dart';
 import 'dsp.dart';
 import 'equalizer_profile.dart';
@@ -45,7 +46,9 @@ class EQProfileNotifier extends StateNotifier<EqualizerProfile> {
   }
 
   addProfile(String name) async {
-    final newProfile = await fetchCurrentEQProfile(name);
+    final newProfile = kIsWeb
+        ? EqualizerProfile(name: name)
+        : await fetchCurrentEQProfile(name);
     settings.addEqProfile(name, newProfile);
     state = newProfile;
   }

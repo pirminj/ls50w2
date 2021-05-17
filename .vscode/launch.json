@@ -47,6 +47,21 @@
             "args": [
                 "--release"
             ]
+        },
+        {
+            "name": "Web",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "chrome"
+        },
+        {
+            "name": "Web release",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "chrome",
+            "args": [
+                "--release"
+            ]
         }
     ],
     "compounds": [
@@ -55,6 +70,7 @@
             "configurations": [
                 "Pixel 5",
                 "Windows",
+                "Web",
             ]
         },
         {
@@ -62,6 +78,7 @@
             "configurations": [
                 "Pixel 5 release",
                 "Windows release",
+                "Web release",
             ]
         }
     ]

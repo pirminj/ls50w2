@@ -43,7 +43,6 @@ class App extends HookWidget {
     return MaterialApp(
       scrollBehavior: ScrollBehavior().copyWith(
         scrollbars: false,
-        physics: BouncingScrollPhysics(),
       ),
       debugShowCheckedModeBanner: false,
       theme: useProvider(themeProvider),
