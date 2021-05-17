@@ -91,7 +91,7 @@ class SourceSelectButton extends HookWidget {
                     ..removeCurrentSnackBar()
                     ..showSnackBar(
                       SnackBar(
-                        content: Text('Switched to EQ Profile $name'),
+                        content: Text('Switched to EQ Profile "$name"'),
                         padding: const EdgeInsets.symmetric(horizontal: 42),
                         width: 800,
                         behavior: SnackBarBehavior.floating,
