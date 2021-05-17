@@ -1,8 +1,25 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kef_ls50w2_client/kef_ls50w2_client.dart';
+import 'package:ls50w2/dsp/equalizer_profile.dart';
 
 part 'settings_model.freezed.dart';
 part 'settings_model.g.dart';
+
+@freezed
+class SettingsModel with _$SettingsModel {
+  factory SettingsModel({
+    required String name,
+    required ModelColor modelColor,
+    required String host,
+    required List<SpeakerSource> showSources,
+    @Default(true) bool showOnOffButton,
+    @Default('None') String selectedEqProfile,
+    @Default({}) Map<String, EqualizerProfile> equalizerProfiles,
+  }) = _SettingsModel;
+
+  factory SettingsModel.fromJson(Map<String, dynamic> json) =>
+      _$SettingsModelFromJson(json);
+}
 
 enum ModelColor {
   mineralWhite,
@@ -45,17 +62,4 @@ extension ModelColorExtension on ModelColor {
         return 'assets/product_photos/dual_front_red.png';
     }
   }
-}
-
-@freezed
-class SettingsModel with _$SettingsModel {
-  factory SettingsModel({
-    required String name,
-    required ModelColor modelColor,
-    required String host,
-    required List<SpeakerSource> showSources,
-  }) = _SettingsModel;
-
-  factory SettingsModel.fromJson(Map<String, dynamic> json) =>
-      _$SettingsModelFromJson(json);
 }

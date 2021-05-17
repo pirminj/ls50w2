@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'common_widgets/json_text_page.dart';
 import 'common_widgets/limited_width_container.dart';
+import 'dsp/dsp.dart';
 import 'providers.dart';
 import 'settings/settings.dart';
 import 'speaker/source_selection.dart';
@@ -31,13 +32,6 @@ void main() async {
   );
 }
 
-class Logger extends ProviderObserver {
-  @override
-  void didUpdateProvider(ProviderBase provider, Object? newValue) {
-    print("${provider.name ?? provider.runtimeType}: $newValue");
-  }
-}
-
 class App extends HookWidget {
   const App({
     Key? key,
@@ -46,17 +40,62 @@ class App extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scrollBehavior: ScrollBehavior().copyWith(
+        scrollbars: false,
+        physics: BouncingScrollPhysics(),
+      ),
       debugShowCheckedModeBanner: false,
       theme: useProvider(themeProvider),
       home: Scaffold(
-        body: Body(),
+        body: Layouter(),
       ),
     );
   }
 }
 
-class Body extends StatelessWidget {
-  const Body({
+class Layouter extends HookWidget {
+  const Layouter({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final details = useProvider(detailsProvider).state;
+    final showDetail = details != null;
+    return useProvider(detailsProvider).state != null
+        ? Row(
+            children: [
+              Flexible(
+                flex: showDetail ? 3 : 1,
+                child: Main(),
+              ),
+              Flexible(
+                flex: 5,
+                child: details!.builder(context),
+              ),
+            ],
+          )
+        : Main();
+  }
+}
+
+extension on Details {
+  WidgetBuilder get builder {
+    switch (this) {
+      case Details.appSettings:
+        return (context) => SettingsPage();
+      case Details.dsp:
+        return (context) => DSPPage();
+      case Details.player:
+        return (context) => PlayerDataPage();
+      case Details.firmware:
+        return (context) => FirmwareUpdatePage();
+    }
+  }
+}
+
+class Main extends StatelessWidget {
+  const Main({
     Key? key,
   }) : super(key: key);
 
@@ -77,22 +116,45 @@ class Body extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 16),
               child: TurnOnOffButton(),
             ),
-            SourceSelection(),
-            SizedBox(height: 32),
-            StartPageListTile(
-              label: 'Settings',
-              leadingIcon: Icons.settings_applications,
-              builder: (context) => SettingsPage(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SourceSelection(),
             ),
-            StartPageListTile(
+            SizedBox(height: 32),
+            MainPageListTile(
+              detail: Details.appSettings,
+              label: 'App settings',
+              leadingIcon: Icons.settings_applications,
+            ),
+            MainPageListTile(
+              detail: Details.dsp,
+              label: 'Digital Signal Processing',
+              leadingIcon: Icons.signal_cellular_alt,
+              maxWidth: 1200,
+            ),
+            MainPageListTile(
+              detail: Details.player,
               label: 'Player details',
               leadingIcon: Icons.play_circle_fill,
-              builder: (context) => PlayerDataPage(),
             ),
-            StartPageListTile(
-              label: 'Firmware update',
+            MainPageListTile(
+              detail: Details.firmware,
+              label: 'Firmware update info',
               leadingIcon: Icons.update,
-              builder: (context) => FirmwareUpdatePage(),
+            ),
+            LimitedWidthContainer(
+              child: AboutListTile(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12,
+                    horizontal: 60,
+                  ),
+                  child: Text('About this app'),
+                ),
+                applicationName: 'LS50W2 control (unofficial)',
+                applicationVersion: '0.1',
+                dense: false,
+              ),
             ),
           ],
         ),
@@ -101,17 +163,19 @@ class Body extends StatelessWidget {
   }
 }
 
-class StartPageListTile extends StatelessWidget {
-  const StartPageListTile({
+class MainPageListTile extends HookWidget {
+  const MainPageListTile({
     Key? key,
     required this.label,
     required this.leadingIcon,
-    required this.builder,
+    required this.detail,
+    this.maxWidth = 800,
   }) : super(key: key);
 
   final String label;
   final IconData leadingIcon;
-  final WidgetBuilder builder;
+  final Details detail;
+  final double maxWidth;
 
   final contentPadding = const EdgeInsets.symmetric(
     horizontal: 24,
@@ -121,56 +185,27 @@ class StartPageListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final trailingIcon = Icon(Icons.arrow_forward_ios, size: 20);
+    final isLargeScreen = MediaQuery.of(context).size.width > 1000;
+
     return LimitedWidthContainer(
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final bool isLarge = constraints.maxWidth >= 900;
-          final providerOverrides = [
-            isLargeScreenProvider.overrideWithValue(isLarge)
-          ];
-          return ListTile(
-            title: Text(label),
-            leading: Icon(leadingIcon, size: 32),
-            contentPadding: contentPadding,
-            trailing: isLarge ? null : trailingIcon,
-            onTap: isLarge
-                ? () => showDialog(
-                      context: context,
-                      builder: (context) => ProviderScope(
-                        overrides: providerOverrides,
-                        child: LimitedWidthContainer(
-                          child: Dialog(
-                            clipBehavior: Clip.antiAlias,
-                            child: builder(context),
-                          ),
-                        ),
-                      ),
-                    )
-                : () => Navigator.of(context).push(
-                      CupertinoPageRoute(
-                        builder: (context) => ProviderScope(
-                          overrides: providerOverrides,
-                          child: builder(context),
-                        ),
-                      ),
+      child: ListTile(
+        title: Text(label),
+        leading: Icon(leadingIcon, size: 32),
+        contentPadding: contentPadding,
+        trailing: isLargeScreen ? null : trailingIcon,
+        onTap: isLargeScreen
+            ? () => context.read(detailsProvider).state = detail
+            : () => Navigator.of(context).push(
+                  CupertinoPageRoute(
+                    builder: (context) => ProviderScope(
+                      overrides: [
+                        isLargeScreenProvider.overrideWithValue(false)
+                      ],
+                      child: detail.builder(context),
                     ),
-          );
-        },
+                  ),
+                ),
       ),
-    );
-  }
-}
-
-class FirmwareUpdatePage extends HookWidget {
-  const FirmwareUpdatePage({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return JsonTextPage(
-      title: 'Firmware update info',
-      asyncJsonData: useProvider(firmwareUpdateProvider),
     );
   }
 }
@@ -185,6 +220,20 @@ class PlayerDataPage extends HookWidget {
     return JsonTextPage(
       title: 'Player data',
       asyncJsonData: useProvider(playerDataProvider),
+    );
+  }
+}
+
+class FirmwareUpdatePage extends HookWidget {
+  const FirmwareUpdatePage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return JsonTextPage(
+      title: 'Firmware update',
+      asyncJsonData: useProvider(firmwareUpdateProvider),
     );
   }
 }

@@ -24,12 +24,18 @@ class _$SettingsModelTearOff {
       {required String name,
       required ModelColor modelColor,
       required String host,
-      required List<SpeakerSource> showSources}) {
+      required List<SpeakerSource> showSources,
+      bool showOnOffButton = true,
+      String selectedEqProfile = 'None',
+      Map<String, EqualizerProfile> equalizerProfiles = const {}}) {
     return _SettingsModel(
       name: name,
       modelColor: modelColor,
       host: host,
       showSources: showSources,
+      showOnOffButton: showOnOffButton,
+      selectedEqProfile: selectedEqProfile,
+      equalizerProfiles: equalizerProfiles,
     );
   }
 
@@ -47,6 +53,10 @@ mixin _$SettingsModel {
   ModelColor get modelColor => throw _privateConstructorUsedError;
   String get host => throw _privateConstructorUsedError;
   List<SpeakerSource> get showSources => throw _privateConstructorUsedError;
+  bool get showOnOffButton => throw _privateConstructorUsedError;
+  String get selectedEqProfile => throw _privateConstructorUsedError;
+  Map<String, EqualizerProfile> get equalizerProfiles =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -63,7 +73,10 @@ abstract class $SettingsModelCopyWith<$Res> {
       {String name,
       ModelColor modelColor,
       String host,
-      List<SpeakerSource> showSources});
+      List<SpeakerSource> showSources,
+      bool showOnOffButton,
+      String selectedEqProfile,
+      Map<String, EqualizerProfile> equalizerProfiles});
 }
 
 /// @nodoc
@@ -81,6 +94,9 @@ class _$SettingsModelCopyWithImpl<$Res>
     Object? modelColor = freezed,
     Object? host = freezed,
     Object? showSources = freezed,
+    Object? showOnOffButton = freezed,
+    Object? selectedEqProfile = freezed,
+    Object? equalizerProfiles = freezed,
   }) {
     return _then(_value.copyWith(
       name: name == freezed
@@ -99,6 +115,18 @@ class _$SettingsModelCopyWithImpl<$Res>
           ? _value.showSources
           : showSources // ignore: cast_nullable_to_non_nullable
               as List<SpeakerSource>,
+      showOnOffButton: showOnOffButton == freezed
+          ? _value.showOnOffButton
+          : showOnOffButton // ignore: cast_nullable_to_non_nullable
+              as bool,
+      selectedEqProfile: selectedEqProfile == freezed
+          ? _value.selectedEqProfile
+          : selectedEqProfile // ignore: cast_nullable_to_non_nullable
+              as String,
+      equalizerProfiles: equalizerProfiles == freezed
+          ? _value.equalizerProfiles
+          : equalizerProfiles // ignore: cast_nullable_to_non_nullable
+              as Map<String, EqualizerProfile>,
     ));
   }
 }
@@ -114,7 +142,10 @@ abstract class _$SettingsModelCopyWith<$Res>
       {String name,
       ModelColor modelColor,
       String host,
-      List<SpeakerSource> showSources});
+      List<SpeakerSource> showSources,
+      bool showOnOffButton,
+      String selectedEqProfile,
+      Map<String, EqualizerProfile> equalizerProfiles});
 }
 
 /// @nodoc
@@ -134,6 +165,9 @@ class __$SettingsModelCopyWithImpl<$Res>
     Object? modelColor = freezed,
     Object? host = freezed,
     Object? showSources = freezed,
+    Object? showOnOffButton = freezed,
+    Object? selectedEqProfile = freezed,
+    Object? equalizerProfiles = freezed,
   }) {
     return _then(_SettingsModel(
       name: name == freezed
@@ -152,6 +186,18 @@ class __$SettingsModelCopyWithImpl<$Res>
           ? _value.showSources
           : showSources // ignore: cast_nullable_to_non_nullable
               as List<SpeakerSource>,
+      showOnOffButton: showOnOffButton == freezed
+          ? _value.showOnOffButton
+          : showOnOffButton // ignore: cast_nullable_to_non_nullable
+              as bool,
+      selectedEqProfile: selectedEqProfile == freezed
+          ? _value.selectedEqProfile
+          : selectedEqProfile // ignore: cast_nullable_to_non_nullable
+              as String,
+      equalizerProfiles: equalizerProfiles == freezed
+          ? _value.equalizerProfiles
+          : equalizerProfiles // ignore: cast_nullable_to_non_nullable
+              as Map<String, EqualizerProfile>,
     ));
   }
 }
@@ -164,7 +210,10 @@ class _$_SettingsModel implements _SettingsModel {
       {required this.name,
       required this.modelColor,
       required this.host,
-      required this.showSources});
+      required this.showSources,
+      this.showOnOffButton = true,
+      this.selectedEqProfile = 'None',
+      this.equalizerProfiles = const {}});
 
   factory _$_SettingsModel.fromJson(Map<String, dynamic> json) =>
       _$_$_SettingsModelFromJson(json);
@@ -177,10 +226,19 @@ class _$_SettingsModel implements _SettingsModel {
   final String host;
   @override
   final List<SpeakerSource> showSources;
+  @JsonKey(defaultValue: true)
+  @override
+  final bool showOnOffButton;
+  @JsonKey(defaultValue: 'None')
+  @override
+  final String selectedEqProfile;
+  @JsonKey(defaultValue: const {})
+  @override
+  final Map<String, EqualizerProfile> equalizerProfiles;
 
   @override
   String toString() {
-    return 'SettingsModel(name: $name, modelColor: $modelColor, host: $host, showSources: $showSources)';
+    return 'SettingsModel(name: $name, modelColor: $modelColor, host: $host, showSources: $showSources, showOnOffButton: $showOnOffButton, selectedEqProfile: $selectedEqProfile, equalizerProfiles: $equalizerProfiles)';
   }
 
   @override
@@ -196,7 +254,16 @@ class _$_SettingsModel implements _SettingsModel {
                 const DeepCollectionEquality().equals(other.host, host)) &&
             (identical(other.showSources, showSources) ||
                 const DeepCollectionEquality()
-                    .equals(other.showSources, showSources)));
+                    .equals(other.showSources, showSources)) &&
+            (identical(other.showOnOffButton, showOnOffButton) ||
+                const DeepCollectionEquality()
+                    .equals(other.showOnOffButton, showOnOffButton)) &&
+            (identical(other.selectedEqProfile, selectedEqProfile) ||
+                const DeepCollectionEquality()
+                    .equals(other.selectedEqProfile, selectedEqProfile)) &&
+            (identical(other.equalizerProfiles, equalizerProfiles) ||
+                const DeepCollectionEquality()
+                    .equals(other.equalizerProfiles, equalizerProfiles)));
   }
 
   @override
@@ -205,7 +272,10 @@ class _$_SettingsModel implements _SettingsModel {
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(modelColor) ^
       const DeepCollectionEquality().hash(host) ^
-      const DeepCollectionEquality().hash(showSources);
+      const DeepCollectionEquality().hash(showSources) ^
+      const DeepCollectionEquality().hash(showOnOffButton) ^
+      const DeepCollectionEquality().hash(selectedEqProfile) ^
+      const DeepCollectionEquality().hash(equalizerProfiles);
 
   @JsonKey(ignore: true)
   @override
@@ -223,7 +293,10 @@ abstract class _SettingsModel implements SettingsModel {
       {required String name,
       required ModelColor modelColor,
       required String host,
-      required List<SpeakerSource> showSources}) = _$_SettingsModel;
+      required List<SpeakerSource> showSources,
+      bool showOnOffButton,
+      String selectedEqProfile,
+      Map<String, EqualizerProfile> equalizerProfiles}) = _$_SettingsModel;
 
   factory _SettingsModel.fromJson(Map<String, dynamic> json) =
       _$_SettingsModel.fromJson;
@@ -236,6 +309,13 @@ abstract class _SettingsModel implements SettingsModel {
   String get host => throw _privateConstructorUsedError;
   @override
   List<SpeakerSource> get showSources => throw _privateConstructorUsedError;
+  @override
+  bool get showOnOffButton => throw _privateConstructorUsedError;
+  @override
+  String get selectedEqProfile => throw _privateConstructorUsedError;
+  @override
+  Map<String, EqualizerProfile> get equalizerProfiles =>
+      throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$SettingsModelCopyWith<_SettingsModel> get copyWith =>

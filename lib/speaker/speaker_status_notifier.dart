@@ -23,8 +23,8 @@ class Speaker extends StateNotifier<AsyncValue<SpeakerStatusModel>> {
   Future<void> load() async {
     state = await AsyncValue.guard(() async {
       return SpeakerStatusModel(
-        status: await _client.getStatus(),
-        source: await _client.getSource(),
+        status: await _client.status.get(),
+        source: await _client.source.get(),
       );
     });
   }
@@ -54,7 +54,7 @@ class Speaker extends StateNotifier<AsyncValue<SpeakerStatusModel>> {
   }
 
   void selectSource(SpeakerSource source) {
-    _client.setSource(source);
+    _client.source.set(source);
     state = state.whenData(
       (value) => value.copyWith(
         source: source,
@@ -64,7 +64,7 @@ class Speaker extends StateNotifier<AsyncValue<SpeakerStatusModel>> {
   }
 
   void setStatus(SpeakerStatus status) {
-    _client.setStatus(status);
+    _client.status.set(status);
     state = state.whenData(
       (value) => value.copyWith(
         source: status == SpeakerStatus.standby

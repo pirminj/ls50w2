@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kef_ls50w2_client/kef_ls50w2_client.dart';
+import 'package:ls50w2/dsp/dsp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'settings_model.dart';
@@ -28,6 +29,10 @@ class Settings extends StateNotifier<SettingsModel> {
         modelColor: ModelColor.mineralWhite,
         showSources: List.from(SpeakerSource.values)
           ..remove(SpeakerSource.standby),
+        selectedEqProfile: 'None',
+        equalizerProfiles: {
+          'None': EqualizerProfile(name: 'None'),
+        },
       );
 
   /// Initialize a settings notifier with from [sharedPreferences]
@@ -73,10 +78,59 @@ class Settings extends StateNotifier<SettingsModel> {
     _saveSettings();
   }
 
-  void updateSources(List<SpeakerSource> sources) {
-    state = state.copyWith(showSources: sources);
+  void updateOnOffButtonVisibility(bool show) {
+    state = state.copyWith(showOnOffButton: show);
     _saveSettings();
   }
+
+  void selectEqProfile(String profileName) {
+    state = state.copyWith(selectedEqProfile: profileName);
+    _saveSettings();
+  }
+
+  void addEqProfile(String name, EqualizerProfile profile) {
+    state = state.copyWith(
+      selectedEqProfile: name,
+      equalizerProfiles: state.equalizerProfiles..addAll({name: profile}),
+    );
+    _saveSettings();
+  }
+
+  void deleteEQProfile(String name) {
+    if (name == 'None') return;
+    state = state.copyWith(
+      equalizerProfiles: state.equalizerProfiles..remove(name),
+      selectedEqProfile: 'None',
+    );
+    _saveSettings();
+  }
+
+  void updateCurrentEQProfile(
+    EqualizerProfile Function(EqualizerProfile) update,
+  ) {
+    state = state.copyWith(
+      equalizerProfiles: state.equalizerProfiles
+        ..update(
+          state.selectedEqProfile,
+          update,
+        ),
+    );
+    _saveSettings();
+  }
+
+  void updateEQProfile(EqualizerProfile profile) {
+    state = state.copyWith(
+      equalizerProfiles: state.equalizerProfiles
+        ..addAll({state.selectedEqProfile: profile}),
+    );
+    _saveSettings();
+  }
+
+  EqualizerProfile get currentEqProfile =>
+      state.equalizerProfiles[state.selectedEqProfile]!;
+
+  Map<String, EqualizerProfile> get equalizerProfiles =>
+      state.equalizerProfiles;
 
   void _saveSettings() async {
     final success = await _sharedPreferences.setString(
@@ -90,6 +144,7 @@ class Settings extends StateNotifier<SettingsModel> {
   void resetSettings() {
     if (_sharedPreferences.containsKey('settings'))
       _sharedPreferences.remove('settings');
+    _sharedPreferences.clear();
     state = defaultSettings();
   }
 }

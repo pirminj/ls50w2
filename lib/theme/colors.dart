@@ -32,9 +32,9 @@ class CarbonBlack implements ColorSet {
 
 /// https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=f7f6f0&secondary.color=aa6d4f
 class MineralWhite implements ColorSet {
-  Color get primaryColor => Color(0xfff7f6f0);
+  Color get primaryColor => Color(0xfffafdff);
   Color get primaryLightColor => Color(0xffffffff);
-  Color get primaryDarkColor => Color(0xffc4c3be);
+  Color get primaryDarkColor => Color(0xffc9ccca);
   Color get secondaryColor => Color(0xffaa6d4f);
   Color get secondaryLightColor => Color(0xffde9c7b);
   Color get secondaryDarkColor => Color(0xff784126);

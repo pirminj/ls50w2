@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kef_ls50w2_client/kef_ls50w2_client.dart';
 
+import '../settings/settings.dart';
 import 'speaker_status_notifier.dart';
 
 class TurnOnOffButton extends HookWidget {
@@ -13,6 +14,13 @@ class TurnOnOffButton extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final speakerValue = useProvider(Speaker.provider);
+    final shouldShow = useProvider(
+      Settings.provider.select((value) => value.showOnOffButton),
+    );
+
+    if (!shouldShow) {
+      return Container();
+    }
 
     return speakerValue.when(
       data: (speaker) {

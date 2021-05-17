@@ -25,10 +25,28 @@
             ]
         },
         {
+            "name": "Pixel 5 release",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "08231FDD4004M9",
+            "args": [
+                "--release"
+            ]
+        },
+        {
             "name": "Windows",
             "request": "launch",
             "type": "dart",
             "deviceId": "windows"
+        },
+        {
+            "name": "Windows release",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "windows",
+            "args": [
+                "--release"
+            ]
         }
     ],
     "compounds": [
@@ -37,6 +55,13 @@
             "configurations": [
                 "Pixel 5",
                 "Windows",
+            ]
+        },
+        {
+            "name": "All devices (release)",
+            "configurations": [
+                "Pixel 5 release",
+                "Windows release",
             ]
         }
     ]

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kef_ls50w2_client/kef_ls50w2_client.dart';
+import 'package:ls50w2/dsp/equalizer_profile_notifier.dart';
 
 import '../common_widgets/elevated_card.dart';
 import '../settings/settings.dart';
@@ -67,7 +68,7 @@ class SourceSelectButton extends HookWidget {
   Widget build(BuildContext context) {
     final speakerValue = useProvider(Speaker.provider);
     final notifier = useProvider(Speaker.provider.notifier);
-    final selectedColor = Theme.of(context).accentIconTheme.color!;
+    final selectedColor = Colors.white;
     final unselectedColor =
         Theme.of(context).primaryIconTheme.color!.withOpacity(0.4);
 
@@ -80,6 +81,25 @@ class SourceSelectButton extends HookWidget {
           onPressed: () async {
             if (isCurrent) return;
             notifier.selectSource(source);
+            context.read(Settings.provider).equalizerProfiles.forEach(
+              (name, profile) {
+                if (profile.autoSwitch == source) {
+                  context
+                      .read(EQProfileNotifier.provider.notifier)
+                      .selectProfile(name);
+                  ScaffoldMessenger.of(context)
+                    ..removeCurrentSnackBar()
+                    ..showSnackBar(
+                      SnackBar(
+                        content: Text('Switched to EQ Profile "$name"'),
+                        padding: const EdgeInsets.symmetric(horizontal: 42),
+                        width: 800,
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
+                }
+              },
+            );
           },
         );
       },
@@ -101,6 +121,7 @@ class SourceSelectButton extends HookWidget {
           border: Border.all(width: 4, color: color),
         ),
         child: IconButton(
+          tooltip: source.name,
           iconSize: 32,
           splashRadius: radius,
           color: color,

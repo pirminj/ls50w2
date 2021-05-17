@@ -4,57 +4,78 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kef_ls50w2_client/kef_ls50w2_client.dart';
 
+import '../common_widgets/details_page.dart';
+import '../common_widgets/text_field_dialog.dart';
+import '../utils.dart';
 import 'settings.dart';
 import 'settings_model.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends HookWidget {
   const SettingsPage({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        title: Text('Settings'),
+    return DetailsPage(
+      title: 'Details',
+      child: ScrollView(
+        children: [
+          ListTile(
+            title: Text(
+              'Speaker',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            dense: true,
+          ),
+          SpeakerNameSettingsTile(),
+          HostSettingsTile(),
+          Divider(),
+          ModelColorSelection(),
+          Divider(),
+          VisibleSourcesSelection(),
+          OnOffButtonVisibilityTile(),
+          Divider(),
+          Container(
+            constraints: BoxConstraints.expand(height: 72),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: ElevatedButton(
+              child: Text(
+                'Reset app settings',
+                style: TextStyle(fontSize: 20),
+              ),
+              onPressed: () =>
+                  context.read(Settings.provider.notifier).resetSettings(),
+            ),
+          )
+        ],
       ),
-      body: Scrollbar(
-        child: ListView(
-          children: [
-            ListTile(
-              title: Text(
-                'Speaker',
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              dense: true,
-            ),
-            SpeakerNameSettingsTile(),
-            HostSettingsTile(),
-            Divider(),
-            ModelColorSelection(),
-            Divider(),
-            VisibleSourcesSelection(),
-            Divider(),
-            AboutListTile(
-              applicationName: 'LS50W2 control (unofficial)',
-              applicationVersion: '0.1',
-              applicationLegalese: 'A rights belong to their respective owners',
-              dense: false,
-            ),
-            Container(
-              constraints: BoxConstraints.expand(height: 72),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: ElevatedButton(
-                child: Text(
-                  'Reset app settings',
-                  style: TextStyle(fontSize: 20),
-                ),
-                onPressed: () =>
-                    context.read(Settings.provider.notifier).resetSettings(),
-              ),
-            )
-          ],
+    );
+  }
+}
+
+class ScrollView extends HookWidget {
+  const ScrollView({
+    Key? key,
+    required this.children,
+  }) : super(key: key);
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    final ScrollController scrollController = useScrollController();
+    return Scrollbar(
+      controller: scrollController,
+      isAlwaysShown: isDesktop,
+      child: Container(
+        alignment: Alignment.center,
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 600),
+          child: ListView(
+            controller: scrollController,
+            children: children,
+          ),
         ),
       ),
     );
@@ -89,7 +110,7 @@ class VisibleSourcesSelection extends HookWidget {
                 controlAffinity: ListTileControlAffinity.leading,
                 contentPadding: _settingsListTileContentPadding,
                 activeColor: theme.accentColor,
-                title: Text(source.name()),
+                title: Text(source.name),
                 value: sources.contains(source),
                 onChanged: (_) => context
                     .read(Settings.provider.notifier)
@@ -165,7 +186,7 @@ class ModelColorSelection extends HookWidget {
                             padding: const EdgeInsets.only(left: 16),
                             child: Text(
                               modelColor.name,
-                              style: GoogleFonts.lato(fontSize: 24),
+                              style: GoogleFonts.lato(fontSize: 20),
                             ),
                           ),
                         ],
@@ -204,7 +225,7 @@ class HostSettingsTile extends HookWidget {
   void _edit(BuildContext context, String host) async {
     final String? editedHost = await showDialog(
       context: context,
-      builder: (context) => TextEditDialog(
+      builder: (context) => TextFieldDialog(
         initial: host,
         validator: (value) {
           final exp = RegExp(
@@ -249,7 +270,7 @@ class SpeakerNameSettingsTile extends HookWidget {
   void _edit(BuildContext context, String name) async {
     final String? edited = await showDialog(
       context: context,
-      builder: (context) => TextEditDialog(initial: name),
+      builder: (context) => TextFieldDialog(initial: name),
     );
     if (edited != null && edited != name) {
       context.read(Settings.provider.notifier).updateName(edited);
@@ -257,54 +278,22 @@ class SpeakerNameSettingsTile extends HookWidget {
   }
 }
 
-class TextEditDialog extends HookWidget {
-  const TextEditDialog({
+class OnOffButtonVisibilityTile extends HookWidget {
+  const OnOffButtonVisibilityTile({
     Key? key,
-    this.initial,
-    this.validator,
   }) : super(key: key);
-
-  final String? initial;
-  final String? Function(String?)? validator;
-
-  void _return(BuildContext context, String name) {
-    Navigator.of(context).pop(name);
-  }
 
   @override
   Widget build(BuildContext context) {
-    final controller = useTextEditingController(text: initial);
-    final theme = Theme.of(context);
-    return Dialog(
-      child: Container(
-        constraints: const BoxConstraints(maxWidth: 500),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Theme(
-                data: theme.copyWith(primaryColor: theme.accentColor),
-                child: TextFormField(
-                  autofocus: true,
-                  controller: controller,
-                  onFieldSubmitted: (name) => _return(context, name),
-                  autovalidateMode: AutovalidateMode.always,
-                  validator: validator,
-                ),
-              ),
-            ),
-            ButtonBar(
-              children: [
-                ElevatedButton(
-                  child: Text('Ok'),
-                  onPressed: () => _return(context, controller.text),
-                )
-              ],
-            ),
-          ],
-        ),
-      ),
+    final show = useProvider(
+      Settings.provider.select((settings) => settings.showOnOffButton),
+    );
+    return SwitchListTile(
+      title: Text('Show On/Off button on main page'),
+      value: show,
+      onChanged: (value) => context
+          .read(Settings.provider.notifier)
+          .updateOnOffButtonVisibility(value),
     );
   }
 }

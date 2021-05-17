@@ -14,6 +14,14 @@ _$_SettingsModel _$_$_SettingsModelFromJson(Map<String, dynamic> json) {
     showSources: (json['showSources'] as List<dynamic>)
         .map((e) => _$enumDecode(_$SpeakerSourceEnumMap, e))
         .toList(),
+    showOnOffButton: json['showOnOffButton'] as bool? ?? true,
+    selectedEqProfile: json['selectedEqProfile'] as String? ?? 'None',
+    equalizerProfiles: (json['equalizerProfiles'] as Map<String, dynamic>?)
+            ?.map(
+          (k, e) =>
+              MapEntry(k, EqualizerProfile.fromJson(e as Map<String, dynamic>)),
+        ) ??
+        {},
   );
 }
 
@@ -24,6 +32,10 @@ Map<String, dynamic> _$_$_SettingsModelToJson(_$_SettingsModel instance) =>
       'host': instance.host,
       'showSources':
           instance.showSources.map((e) => _$SpeakerSourceEnumMap[e]).toList(),
+      'showOnOffButton': instance.showOnOffButton,
+      'selectedEqProfile': instance.selectedEqProfile,
+      'equalizerProfiles':
+          instance.equalizerProfiles.map((k, e) => MapEntry(k, e.toJson())),
     };
 
 K _$enumDecode<K, V>(
