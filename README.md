@@ -1,26 +1,36 @@
 # ls50w2
 
-A Flutter app to control KEF LS50 Wireless 2 in your local network
+Control KEF LS50 Wireless 2 in your local network
+
+## [Demo (non-functional)](https://pirmin.xyz/ls50w2)
+(I compiled the app to Javascript, but it can't communicate with the speaker in the network. If you know how to do that I'd appreciate your help 😊)
+
+ℹ Resize the tab to check out the mobile layout
 
 ## Features
 
 - All four colors!
-- Looks good on desktop and mobile devices 
-- Input source selection
+- Works on desktop and mobile
+- Initial EQ Profile support 
+- Input source selection and automatic EQ Profile switching
 - Disable unused inputs on start screen
-- Infos about player and firmware updates
-
-<p float="left">
-  <img src="https://user-images.githubusercontent.com/43973067/115079593-b2e3f680-9f01-11eb-8cb0-9b72cbcc68e1.png" width="250" />
-  <img src="https://user-images.githubusercontent.com/43973067/115079599-b6777d80-9f01-11eb-954b-44e72e2adaa8.png" width="250" /> 
-  <img src="https://user-images.githubusercontent.com/43973067/115079544-a19aea00-9f01-11eb-8ab2-a642a14560e0.png" width="250" />
-  <img src="https://user-images.githubusercontent.com/43973067/115079577-ae1f4280-9f01-11eb-9d38-78371e939839.png" width="250" />
-  <img src="https://user-images.githubusercontent.com/43973067/115079566-a9f32500-9f01-11eb-9c7a-857d0ac84db7.png" width="250" />
-</p>
-
-![image](https://user-images.githubusercontent.com/43973067/115114357-25e77e80-9f8f-11eb-98fd-fdc658bed006.png)
-![image](https://user-images.githubusercontent.com/43973067/115114363-2d0e8c80-9f8f-11eb-834e-9a76945fa75c.png)
+- Infos about player data and firmware updates
 
 ## How to use
 
-Install flutter and compile to Android or Windows (tested). iOS should also work
+The app is compiled and tested for Windows and Android. Download the files from the release page and follow the instructions there. 
+Alternatively, install Flutter and compile for your prefered platform (iOS, macOS, linux)
+
+![image](https://user-images.githubusercontent.com/43973067/118521517-69bed680-b73b-11eb-8701-6e8bb5516f2b.png)
+![image](https://user-images.githubusercontent.com/43973067/118521649-81965a80-b73b-11eb-8a98-b9f568552b6f.png)
+![image](https://user-images.githubusercontent.com/43973067/118521747-a094ec80-b73b-11eb-9cd0-35e3ac35c9e0.png)
+
+## Roadmap
+
+- More DSP options
+- Reimplementation of most features in the official KEF control app (Volume settings)
+
+## Credits
+
+- https://github.com/N0ciple/pykefcontrol
+- https://community.roonlabs.com/u/digitalfrog/
