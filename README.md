@@ -2,7 +2,7 @@
 
 Control KEF LS50 Wireless 2 in your local network
 
-## [Demo (non-functional)](https://pirmin.xyz/ls50w2)
+## [Demo](https://pirminj.github.io/ls50w2/)
 (I compiled the app to Javascript, but it can't communicate with the speaker in the network. If you know how to do that I'd appreciate your help 😊)
 
 ℹ Resize the tab to check out the mobile layout
